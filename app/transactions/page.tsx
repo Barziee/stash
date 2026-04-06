@@ -1,0 +1,59 @@
+'use client';
+import { useState } from 'react';
+import { useTransactions } from '@/hooks/useTransactions';
+import { useCategories } from '@/hooks/useCategories';
+import { TransactionList } from '@/components/transactions/TransactionList';
+import { TransactionFilters } from '@/components/transactions/TransactionFilters';
+import { AddExpenseModal } from '@/components/shared/AddExpenseModal';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+function formatMonth(d: Date) { return d.toISOString().slice(0, 7); }
+function monthLabel(yyyymm: string) {
+  const [y, m] = yyyymm.split('-');
+  return new Date(Number(y), Number(m) - 1).toLocaleString('default', { month: 'long', year: 'numeric' });
+}
+
+export default function TransactionsPage() {
+  const [month, setMonth] = useState(formatMonth(new Date()));
+  const [filterType, setFilterType] = useState('all');
+  const [filterCategory, setFilterCategory] = useState('all');
+  const all = useTransactions(month);
+  const categories = useCategories();
+
+  const filtered = all.filter(t => {
+    if (filterType !== 'all' && t.type !== filterType) return false;
+    if (filterCategory !== 'all' && t.categoryId !== parseInt(filterCategory)) return false;
+    return true;
+  });
+
+  function prev() {
+    const d = new Date(month + '-01'); d.setMonth(d.getMonth() - 1);
+    setMonth(formatMonth(d));
+  }
+  function next() {
+    const d = new Date(month + '-01'); d.setMonth(d.getMonth() + 1);
+    setMonth(formatMonth(d));
+  }
+
+  return (
+    <div className="p-4 flex flex-col gap-4 max-w-2xl mx-auto">
+      <div className="flex items-center justify-between">
+        <Button variant="ghost" size="icon" onClick={prev}><ChevronLeft /></Button>
+        <h2 className="text-base font-semibold">{monthLabel(month)}</h2>
+        <Button variant="ghost" size="icon" onClick={next}><ChevronRight /></Button>
+      </div>
+      <TransactionFilters
+        categories={categories}
+        filterCategory={filterCategory}
+        filterType={filterType}
+        onCategoryChange={setFilterCategory}
+        onTypeChange={setFilterType}
+      />
+      <TransactionList transactions={filtered} categories={categories} />
+      <div className="flex justify-center">
+        <AddExpenseModal />
+      </div>
+    </div>
+  );
+}
