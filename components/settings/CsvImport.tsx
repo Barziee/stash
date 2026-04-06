@@ -1,0 +1,99 @@
+'use client';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { parseCSVRows, deduplicateByHash } from '@/lib/csv/import';
+import { addTransaction } from '@/lib/db/queries';
+import { useCategories } from '@/hooks/useCategories';
+import { useExchangeRate } from '@/hooks/useExchangeRate';
+import { convertToNIS } from '@/lib/currency/exchange';
+import type { Currency } from '@/types';
+
+export function CsvImport() {
+  const categories = useCategories();
+  const rate = useExchangeRate();
+  const [rows, setRows] = useState<Record<string, string>[]>([]);
+  const [headers, setHeaders] = useState<string[]>([]);
+  const [colMap, setColMap] = useState({ date: '', amount: '', currency: '', description: '' });
+  const [categoryId, setCategoryId] = useState('');
+  const [importing, setImporting] = useState(false);
+  const [done, setDone] = useState(false);
+
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const text = ev.target?.result as string;
+      const parsed = parseCSVRows(text);
+      setRows(parsed);
+      setHeaders(parsed.length > 0 ? Object.keys(parsed[0]) : []);
+    };
+    reader.readAsText(file);
+  }
+
+  async function handleImport() {
+    if (!categoryId || !colMap.date || !colMap.amount) return;
+    setImporting(true);
+    const deduped = deduplicateByHash(rows.map(r => ({
+      date: r[colMap.date],
+      amount: r[colMap.amount],
+      description: r[colMap.description] ?? '',
+      currency: r[colMap.currency] ?? 'NIS',
+    })));
+    for (const row of deduped) {
+      const originalAmount = parseFloat(row.amount);
+      const currency = (row.currency === 'USD' ? 'USD' : 'NIS') as Currency;
+      if (isNaN(originalAmount)) continue;
+      await addTransaction({
+        amount: convertToNIS(originalAmount, currency, rate),
+        currency,
+        originalAmount,
+        originalCurrency: currency,
+        categoryId: parseInt(categoryId),
+        date: row.date,
+        notes: row.description,
+        type: 'expense',
+        source: 'imported',
+      });
+    }
+    setImporting(false);
+    setDone(true);
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <h3 className="font-semibold text-sm">Import from CSV</h3>
+      <input type="file" accept=".csv" onChange={handleFile} className="text-sm" />
+      {headers.length > 0 && (
+        <>
+          <p className="text-xs text-muted-foreground">Map CSV columns:</p>
+          {(['date', 'amount', 'currency', 'description'] as const).map(field => (
+            <div key={field} className="flex items-center gap-2">
+              <Label className="w-24 capitalize text-xs">{field}</Label>
+              <Select value={colMap[field]} onValueChange={v => setColMap(m => ({ ...m, [field]: v }))}>
+                <SelectTrigger className="flex-1"><SelectValue placeholder="Select column" /></SelectTrigger>
+                <SelectContent>
+                  {headers.map(h => <SelectItem key={h} value={h}>{h}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+          ))}
+          <div>
+            <Label className="text-xs">Default Category</Label>
+            <Select value={categoryId} onValueChange={setCategoryId}>
+              <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+              <SelectContent>
+                {categories.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.icon} {c.name}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+          <Button onClick={handleImport} disabled={importing || done}>
+            {done ? `Imported ${rows.length} rows` : importing ? 'Importing…' : `Import ${rows.length} rows`}
+          </Button>
+        </>
+      )}
+    </div>
+  );
+}
