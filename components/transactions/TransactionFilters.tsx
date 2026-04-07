@@ -12,8 +12,8 @@ interface Props {
 export function TransactionFilters({
   categories, filterCategory, filterType, onCategoryChange, onTypeChange
 }: Props) {
-  const activePill = 'bg-[#34b87a18] border border-[#34b87a30] text-[#34b87a]';
-  const idlePill = 'bg-[#16161e] text-[#4a4a5a] hover:text-[#8a8a9a]';
+  const activePill = 'bg-[#4a9e7818] border border-[#4a9e7830] text-[#4a9e78]';
+  const idlePill = 'bg-[#191919] text-[#505052] hover:text-[#808082]';
 
   return (
     <div className="flex flex-col gap-2">
@@ -48,7 +48,7 @@ export function TransactionFilters({
               className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-colors"
               style={isActive
                 ? { backgroundColor: c.color + '22', border: `1px solid ${c.color}44`, color: c.color }
-                : { backgroundColor: '#16161e', color: '#4a4a5a' }
+                : { backgroundColor: '#191919', color: '#505052' }
               }
             >
               {c.name}

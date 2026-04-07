@@ -37,23 +37,23 @@ export function RecurringManager() {
   return (
     <div className="flex flex-col gap-3">
       <h3 className="font-semibold text-sm">עסקאות קבועות</h3>
-      <p className="text-xs text-[#4a4a5a]">נוספות אוטומטית בכל חודש ביום שנקבע.</p>
+      <p className="text-xs text-[#505052]">נוספות אוטומטית בכל חודש ביום שנקבע.</p>
 
       {recurrings?.map(r => {
         const cat = categoryMap[r.categoryId];
         return (
-          <div key={r.id} className="flex items-center justify-between bg-[#1e1e28] rounded-lg px-3 py-2">
+          <div key={r.id} className="flex items-center justify-between bg-[#222224] rounded-lg px-3 py-2">
             <div className="flex items-center gap-2">
               <span>{cat?.icon}</span>
               <div>
-                <p className="text-sm text-[#e2e2e8]">{cat?.name}</p>
-                <p className="text-xs text-[#4a4a5a]">
+                <p className="text-sm text-[#d1d1d4]">{cat?.name}</p>
+                <p className="text-xs text-[#505052]">
                   יום {r.dayOfMonth} · {r.type === 'income' ? '+' : '-'}₪{r.amount}
                   {r.notes ? ` · ${r.notes}` : ''}
                 </p>
               </div>
             </div>
-            <Button variant="ghost" size="icon" className="h-7 w-7 text-[#3a3a4a] hover:text-[#c95555]"
+            <Button variant="ghost" size="icon" className="h-7 w-7 text-[#404042] hover:text-[#a84444]"
               onClick={() => r.id && deleteRecurringTransaction(r.id)}>
               <Trash2 size={14} />
             </Button>
@@ -61,7 +61,7 @@ export function RecurringManager() {
         );
       })}
 
-      <div className="flex flex-col gap-2 border border-[#1e1e2a] rounded-xl p-3 mt-1">
+      <div className="flex flex-col gap-2 border border-[#272729] rounded-xl p-3 mt-1">
         <div className="grid grid-cols-2 gap-2">
           <div>
             <Label className="text-xs">קטגוריה</Label>

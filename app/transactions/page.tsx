@@ -5,6 +5,7 @@ import { useCategories } from '@/hooks/useCategories';
 import { TransactionList } from '@/components/transactions/TransactionList';
 import { TransactionFilters } from '@/components/transactions/TransactionFilters';
 import { AddExpenseModal } from '@/components/shared/AddExpenseModal';
+import { QuickAdd } from '@/components/dashboard/QuickAdd';
 import { seedDefaultCategories } from '@/lib/db/database';
 import { exportToExcel, exportToPdf } from '@/lib/export/exportTransactions';
 import { Button } from '@/components/ui/button';
@@ -42,19 +43,22 @@ export default function TransactionsPage() {
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Quick add — always visible at top */}
+      <QuickAdd />
+
+      {/* Month nav + export */}
       <div className="flex items-center justify-between">
         <Button variant="ghost" size="icon" onClick={prev}><ChevronRight /></Button>
-        <h2 className="text-base font-semibold">{monthLabel(month)}</h2>
+        <h2 className="text-sm font-semibold text-[#d1d1d4]">{monthLabel(month)}</h2>
         <Button variant="ghost" size="icon" onClick={next}><ChevronLeft /></Button>
       </div>
 
-      {/* Export buttons */}
       <div className="flex gap-2 justify-end">
-        <Button variant="ghost" size="sm" className="text-[#4a4a5a] text-xs gap-1.5"
+        <Button variant="ghost" size="sm" className="text-[#505052] text-xs gap-1.5"
           onClick={() => exportToExcel(all, categories, month)}>
           <FileSpreadsheet size={13} /> Excel
         </Button>
-        <Button variant="ghost" size="sm" className="text-[#4a4a5a] text-xs gap-1.5"
+        <Button variant="ghost" size="sm" className="text-[#505052] text-xs gap-1.5"
           onClick={() => exportToPdf(all, categories, month)}>
           <FileText size={13} /> PDF
         </Button>
@@ -68,7 +72,7 @@ export default function TransactionsPage() {
         onTypeChange={setFilterType}
       />
       <TransactionList transactions={filtered} categories={categories} />
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-2">
         <AddExpenseModal />
       </div>
     </div>

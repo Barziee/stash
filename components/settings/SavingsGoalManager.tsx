@@ -13,7 +13,7 @@ export function SavingsGoalManager() {
   const [name, setName] = useState('');
   const [target, setTarget] = useState('');
   const [icon, setIcon] = useState('🎯');
-  const [color, setColor] = useState('#34b87a');
+  const [color, setColor] = useState('#4a9e78');
 
   async function handleAdd() {
     if (!name || !target) return;
@@ -34,41 +34,41 @@ export function SavingsGoalManager() {
       {goals?.map(g => {
         const pct = Math.min((g.currentAmount / g.targetAmount) * 100, 100);
         return (
-          <div key={g.id} className="bg-[#1e1e28] rounded-xl p-3">
+          <div key={g.id} className="bg-[#222224] rounded-xl p-3">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-center gap-2">
                 <span className="text-lg">{g.icon}</span>
                 <div>
-                  <p className="text-sm font-medium text-[#e2e2e8]">{g.name}</p>
-                  <p className="text-xs text-[#4a4a5a]">₪{g.currentAmount.toFixed(0)} / ₪{g.targetAmount.toFixed(0)}</p>
+                  <p className="text-sm font-medium text-[#d1d1d4]">{g.name}</p>
+                  <p className="text-xs text-[#505052]">₪{g.currentAmount.toFixed(0)} / ₪{g.targetAmount.toFixed(0)}</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <Button
-                  variant="ghost" size="icon" className="h-6 w-6 text-[#34b87a]"
+                  variant="ghost" size="icon" className="h-6 w-6 text-[#4a9e78]"
                   onClick={() => g.id && updateSavingsGoal(g.id, { currentAmount: Math.min(g.currentAmount + 100, g.targetAmount) })}
                   title="+₪100"
                 >
                   <Plus size={12} />
                 </Button>
-                <Button variant="ghost" size="icon" className="h-6 w-6 text-[#3a3a4a] hover:text-[#c95555]"
+                <Button variant="ghost" size="icon" className="h-6 w-6 text-[#404042] hover:text-[#a84444]"
                   onClick={() => g.id && deleteSavingsGoal(g.id)}>
                   <Trash2 size={12} />
                 </Button>
               </div>
             </div>
-            <div className="h-1.5 bg-[#16161e] rounded-full overflow-hidden">
+            <div className="h-1.5 bg-[#191919] rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{ width: `${pct}%`, backgroundColor: g.color }}
               />
             </div>
-            <p className="text-[10px] text-[#3a3a4a] mt-1 text-end">{pct.toFixed(0)}%</p>
+            <p className="text-[10px] text-[#404042] mt-1 text-end">{pct.toFixed(0)}%</p>
           </div>
         );
       })}
 
-      <div className="flex flex-col gap-2 border border-[#1e1e2a] rounded-xl p-3 mt-1">
+      <div className="flex flex-col gap-2 border border-[#272729] rounded-xl p-3 mt-1">
         <div className="grid grid-cols-2 gap-2">
           <div>
             <Label className="text-xs">שם היעד</Label>

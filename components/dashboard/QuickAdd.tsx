@@ -40,8 +40,8 @@ export function QuickAdd() {
   }
 
   return (
-    <div className="bg-[#16161e] rounded-2xl p-4 flex flex-col gap-3">
-      <p className="text-[9px] tracking-[0.2em] text-[#3a3a4a] uppercase">הוספה מהירה</p>
+    <div className="bg-[#191919] rounded-2xl p-4 flex flex-col gap-3">
+      <p className="text-[9px] tracking-[0.2em] text-[#404042] uppercase">הוספה מהירה</p>
 
       {/* Category icon row */}
       <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
@@ -56,7 +56,7 @@ export function QuickAdd() {
               <div
                 className="w-11 h-11 rounded-full flex items-center justify-center text-xl transition-all duration-150"
                 style={{
-                  backgroundColor: active ? c.color + '33' : '#1e1e28',
+                  backgroundColor: active ? c.color + '33' : '#222224',
                   border: `1.5px solid ${active ? c.color : 'transparent'}`,
                   transform: active ? 'scale(1.08)' : 'scale(1)',
                 }}
@@ -65,7 +65,7 @@ export function QuickAdd() {
               </div>
               <span
                 className="text-[9px] max-w-[44px] truncate text-center"
-                style={{ color: active ? c.color : '#3a3a4a' }}
+                style={{ color: active ? c.color : '#404042' }}
               >
                 {c.name}
               </span>
@@ -76,8 +76,8 @@ export function QuickAdd() {
 
       {/* Amount row */}
       <div className="flex items-center gap-2">
-        <div className="flex-1 flex items-center gap-1.5 bg-[#1e1e28] rounded-xl px-3 py-2.5">
-          <span className="text-[#4a4a5a] text-sm">₪</span>
+        <div className="flex-1 flex items-center gap-1.5 bg-[#222224] rounded-xl px-3 py-2.5">
+          <span className="text-[#505052] text-sm">₪</span>
           <input
             type="number"
             inputMode="decimal"
@@ -85,7 +85,7 @@ export function QuickAdd() {
             value={amount}
             onChange={e => setAmount(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent text-[#e2e2e8] text-base font-semibold outline-none placeholder:text-[#2a2a3a] min-w-0"
+            className="flex-1 bg-transparent text-[#d1d1d4] text-base font-semibold outline-none placeholder:text-[#2c2c2e] min-w-0"
           />
         </div>
         <button
@@ -93,8 +93,8 @@ export function QuickAdd() {
           disabled={saving || !amount || selectedCategoryId === null}
           className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 ${
             amount && selectedCategoryId !== null
-              ? 'bg-[#34b87a] text-[#0e0e12] hover:bg-[#2daa70]'
-              : 'bg-[#1e1e28] text-[#2a2a3a]'
+              ? 'bg-[#4a9e78] text-[#111113] hover:bg-[#3d8e68]'
+              : 'bg-[#222224] text-[#2c2c2e]'
           }`}
         >
           <Plus size={20} />
@@ -102,7 +102,7 @@ export function QuickAdd() {
       </div>
 
       {selectedCategoryId === null && (
-        <p className="text-[10px] text-[#2a2a3a] text-center">בחר קטגוריה ולאחר מכן הזן סכום</p>
+        <p className="text-[10px] text-[#2c2c2e] text-center">בחר קטגוריה ולאחר מכן הזן סכום</p>
       )}
     </div>
   );

@@ -49,7 +49,7 @@ export function AddExpenseModal() {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger render={<Button variant="outline" className="gap-2 text-[#4a4a5a] border-[#1e1e2a]" />}>
+      <SheetTrigger render={<Button variant="outline" className="gap-2 text-[#505052] border-[#272729]" />}>
         <Plus size={14} />
         הוסף הוצאה מפורטת
       </SheetTrigger>
@@ -90,8 +90,8 @@ export function AddExpenseModal() {
           </div>
 
           {/* Split toggle */}
-          <div className="flex items-center justify-between bg-[#16161e] rounded-xl px-3 py-2.5">
-            <div className="flex items-center gap-2 text-sm text-[#6b6b7a]">
+          <div className="flex items-center justify-between bg-[#191919] rounded-xl px-3 py-2.5">
+            <div className="flex items-center gap-2 text-sm text-[#666668]">
               <SplitSquareHorizontal size={15} />
               <span>פיצול עם</span>
             </div>
@@ -106,14 +106,14 @@ export function AddExpenseModal() {
               )}
               <button
                 onClick={() => setIsSplit(v => !v)}
-                className={`w-10 h-5 rounded-full transition-colors relative ${isSplit ? 'bg-[#34b87a]' : 'bg-[#1e1e28]'}`}
+                className={`w-10 h-5 rounded-full transition-colors relative ${isSplit ? 'bg-[#4a9e78]' : 'bg-[#222224]'}`}
               >
                 <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${isSplit ? 'end-0.5' : 'start-0.5'}`} />
               </button>
             </div>
           </div>
           {isSplit && amount && (
-            <p className="text-xs text-[#34b87a] text-center">
+            <p className="text-xs text-[#4a9e78] text-center">
               החלק שלך: ₪{(parseFloat(amount) * 0.5).toFixed(2)}
             </p>
           )}

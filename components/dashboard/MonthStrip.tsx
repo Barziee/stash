@@ -62,17 +62,17 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
               disabled={isFuture}
               className={`flex-shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs transition-colors ${
                 isActive
-                  ? 'bg-[#1e1e28] border border-[#34b87a30] text-[#34b87a]'
+                  ? 'bg-[#222224] border border-[#4a9e7830] text-[#4a9e78]'
                   : isFuture
-                  ? 'bg-[#16161e] text-[#252535] cursor-default'
-                  : 'bg-[#16161e] text-[#4a4a5a] hover:text-[#8a8a9a]'
+                  ? 'bg-[#191919] text-[#222224] cursor-default'
+                  : 'bg-[#191919] text-[#505052] hover:text-[#808082]'
               }`}
             >
               <span className="font-semibold">{label}</span>
               <span className={`text-[10px] mt-0.5 ${
-                isFuture ? 'text-[#252535]' : hasData
-                  ? net >= 0 ? 'text-[#34b87a]' : 'text-[#c95555]'
-                  : 'text-[#2a2a3a]'
+                isFuture ? 'text-[#222224]' : hasData
+                  ? net >= 0 ? 'text-[#4a9e78]' : 'text-[#a84444]'
+                  : 'text-[#2c2c2e]'
               }`}>
                 {!isFuture && hasData ? fmtNet(net) : '—'}
               </span>
@@ -83,15 +83,15 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
 
       {annualGoal > 0 && (
         <div className="mt-3">
-          <div className="flex justify-between text-[10px] text-[#3a3a4a] mb-1.5">
+          <div className="flex justify-between text-[10px] text-[#404042] mb-1.5">
             <span>חסכונות {year}</span>
-            <span className={ytdSavings >= 0 ? 'text-[#34b87a]' : 'text-[#c95555]'}>
+            <span className={ytdSavings >= 0 ? 'text-[#4a9e78]' : 'text-[#a84444]'}>
               {ytdSavings >= 0 ? '+' : ''}₪{ytdSavings.toFixed(0)}
             </span>
           </div>
-          <div className="h-1 bg-[#16161e] rounded-full overflow-hidden">
+          <div className="h-1 bg-[#191919] rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#34b87a] rounded-full transition-all duration-500"
+              className="h-full bg-[#4a9e78] rounded-full transition-all duration-500"
               style={{ width: `${savingsPct}%` }}
             />
           </div>

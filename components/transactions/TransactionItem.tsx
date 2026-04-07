@@ -12,20 +12,20 @@ interface Props {
 export function TransactionItem({ transaction, category }: Props) {
   const isExpense = transaction.type === 'expense';
   const sign = isExpense ? '-' : '+';
-  const amountColor = isExpense ? 'text-[#c95555]' : 'text-[#34b87a]';
+  const amountColor = isExpense ? 'text-[#a84444]' : 'text-[#4a9e78]';
 
   return (
-    <div className="flex items-center gap-3 py-2.5 border-b border-[#1e1e2a] last:border-0">
+    <div className="flex items-center gap-3 py-2.5 border-b border-[#272729] last:border-0">
       <div
         className="w-1 self-stretch rounded-sm flex-shrink-0 min-h-[36px]"
-        style={{ backgroundColor: category?.color ?? '#3a3a4a' }}
+        style={{ backgroundColor: category?.color ?? '#404042' }}
       />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-[#e2e2e8]">{category?.name ?? 'לא ידוע'}</p>
+        <p className="text-sm font-medium text-[#d1d1d4]">{category?.name ?? 'לא ידוע'}</p>
         {transaction.notes && (
-          <p className="text-xs text-[#4a4a5a] truncate">{transaction.notes}</p>
+          <p className="text-xs text-[#505052] truncate">{transaction.notes}</p>
         )}
-        <p className="text-xs text-[#3a3a4a]">{transaction.date}</p>
+        <p className="text-xs text-[#404042]">{transaction.date}</p>
       </div>
       <div className="flex items-center gap-1.5 flex-shrink-0">
         <span className={`text-sm font-semibold ${amountColor}`}>
@@ -34,7 +34,7 @@ export function TransactionItem({ transaction, category }: Props) {
         <Button
           variant="ghost"
           size="icon"
-          className="h-6 w-6 text-[#3a3a4a] hover:text-[#c95555]"
+          className="h-6 w-6 text-[#404042] hover:text-[#a84444]"
           onClick={() => transaction.id && deleteTransaction(transaction.id)}
         >
           <Trash2 size={12} />
