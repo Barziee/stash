@@ -12,32 +12,31 @@ export function BudgetCard({ budget, category, spent }: Props) {
   const warning = pct >= 80 && !over;
 
   const barGradient = over
-    ? 'linear-gradient(90deg, #f56565, #f87171)'
+    ? 'linear-gradient(90deg, #c95555, #d96060)'
     : warning
-    ? 'linear-gradient(90deg, #f6c90e, #f7d325)'
-    : 'linear-gradient(90deg, #3ecf8e, #45d68f)';
+    ? 'linear-gradient(90deg, #c9a030, #d4b040)'
+    : 'linear-gradient(90deg, #34b87a, #2daa70)';
 
   return (
-    <div className={`bg-[#1a1a24] rounded-xl p-3 ${over ? 'border border-[#f5656522]' : ''}`}>
+    <div className={`bg-[#16161e] rounded-xl p-3 ${over ? 'border border-[#c9555520]' : ''}`}>
       <div className="flex justify-between items-center mb-2.5">
         <div className="flex items-center gap-2">
           <div
             className="w-2 h-2 rounded-full flex-shrink-0"
             style={{ backgroundColor: category.color }}
           />
-          <span className="text-sm font-medium text-white">{category.name}</span>
+          <span className="text-sm font-medium text-[#e2e2e8]">{category.name}</span>
         </div>
-        {over && <span className="text-xs font-semibold text-[#f56565]">חריגה מתקציב</span>}
-        {warning && <span className="text-xs font-semibold text-[#f6c90e]">קרוב לגבול</span>}
+        {over && <span className="text-xs font-medium text-[#c95555]">חריגה מתקציב</span>}
+        {warning && <span className="text-xs font-medium text-[#c9a030]">קרוב לגבול</span>}
       </div>
-      {/* 4px slim progress bar */}
-      <div className="h-1 bg-[#252535] rounded-full overflow-hidden mb-2">
+      <div className="h-1 bg-[#1e1e28] rounded-full overflow-hidden mb-2">
         <div
           className="h-full rounded-full transition-all duration-500"
           style={{ width: `${pct}%`, background: barGradient }}
         />
       </div>
-      <div className="flex justify-between text-[10px] text-[#444]">
+      <div className="flex justify-between text-[10px] text-[#3a3a4a]">
         <span>הוצא ₪{spent.toFixed(0)}</span>
         <span>מגבלה ₪{budget.limitAmount}</span>
       </div>

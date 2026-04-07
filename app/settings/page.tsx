@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { CategoryManager } from '@/components/settings/CategoryManager';
 import { BankAccountManager } from '@/components/settings/BankAccountManager';
 import { CsvImport } from '@/components/settings/CsvImport';
+import { RecurringManager } from '@/components/settings/RecurringManager';
+import { SavingsGoalManager } from '@/components/settings/SavingsGoalManager';
 import { getSettings, updateSettings } from '@/lib/db/queries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -29,14 +31,17 @@ export default function SettingsPage() {
       <Card>
         <CardHeader><CardTitle className="text-sm">משכורת חודשית (₪)</CardTitle></CardHeader>
         <CardContent className="flex gap-2">
-          <Input
-            type="number"
-            value={salary}
-            onChange={e => setSalary(e.target.value)}
-            placeholder="לדוגמה: 12000"
-          />
+          <Input type="number" value={salary} onChange={e => setSalary(e.target.value)} placeholder="לדוגמה: 12000" />
           <Button onClick={handleSaveSalary}>{saved ? 'נשמר!' : 'שמור'}</Button>
         </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="pt-4"><SavingsGoalManager /></CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="pt-4"><RecurringManager /></CardContent>
       </Card>
 
       <Card>

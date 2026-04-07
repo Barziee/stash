@@ -5,15 +5,15 @@ export type Currency = 'NIS' | 'USD';
 export interface Category {
   id?: number;
   name: string;
-  color: string;   // hex e.g. "#FF6B6B"
-  icon: string;    // emoji e.g. "🍔"
+  color: string;
+  icon: string;
 }
 
 export interface Transaction {
   id?: number;
-  amount: number;           // always NIS equivalent at time of entry
-  currency: Currency;       // display currency
-  originalAmount: number;   // amount in original currency
+  amount: number;
+  currency: Currency;
+  originalAmount: number;
   originalCurrency: Currency;
   categoryId: number;
   date: string;             // YYYY-MM-DD
@@ -21,19 +21,21 @@ export interface Transaction {
   type: TransactionType;
   source: TransactionSource;
   supabaseId?: string;
+  splitWithName?: string;   // e.g. "נועה"
+  splitRatio?: number;      // 0.5 = 50/50, 0.33 = you paid 33%
 }
 
 export interface Budget {
   id?: number;
   categoryId: number;
-  month: string;       // YYYY-MM
-  limitAmount: number; // NIS
+  month: string;
+  limitAmount: number;
   supabaseId?: string;
 }
 
 export interface AppSettings {
   id?: number;
-  salary: number;      // monthly salary in NIS
+  salary: number;
   displayCurrency: Currency;
 }
 
@@ -41,12 +43,32 @@ export interface BankCredential {
   id?: number;
   bankName: string;
   username: string;
-  encryptedPassword: string; // base64 AES-256-GCM ciphertext
-  iv: string;                // base64 IV
+  encryptedPassword: string;
+  iv: string;
 }
 
 export interface ExchangeRate {
   id?: number;
   usdToNis: number;
-  fetchedAt: string; // ISO timestamp
+  fetchedAt: string;
+}
+
+export interface RecurringTransaction {
+  id?: number;
+  categoryId: number;
+  amount: number;
+  dayOfMonth: number;   // 1–28, day to auto-add each month
+  notes?: string;
+  type: TransactionType;
+  lastAddedMonth?: string; // YYYY-MM — prevents double-adding
+}
+
+export interface SavingsGoal {
+  id?: number;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  targetDate?: string;  // YYYY-MM-DD
+  color: string;
+  icon: string;
 }

@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import { MonthStrip } from '@/components/dashboard/MonthStrip';
 import { MonthlySummary } from '@/components/dashboard/MonthlySummary';
 import { SpendingChart } from '@/components/dashboard/SpendingChart';
-import { AddExpenseModal } from '@/components/shared/AddExpenseModal';
+import { QuickAdd } from '@/components/dashboard/QuickAdd';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useCategories } from '@/hooks/useCategories';
 import { usePrivacyMode } from '@/hooks/usePrivacyMode';
-import { getSettings } from '@/lib/db/queries';
+import { getSettings, processRecurringTransactions } from '@/lib/db/queries';
 import { seedDefaultCategories } from '@/lib/db/database';
 
 function formatMonth(date: Date): string {
@@ -23,6 +23,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     seedDefaultCategories();
+    processRecurringTransactions();
     getSettings().then(s => setSalary(s.salary));
   }, []);
 
@@ -42,8 +43,8 @@ export default function DashboardPage() {
           onClick={toggleHidden}
           className={`text-[10px] tracking-widest px-3 py-1.5 rounded-full transition-colors ${
             hidden
-              ? 'bg-[#3ecf8e22] border border-[#3ecf8e44] text-[#3ecf8e]'
-              : 'bg-[#1a1a24] text-[#666] hover:text-[#888]'
+              ? 'bg-[#34b87a18] border border-[#34b87a30] text-[#34b87a]'
+              : 'bg-[#16161e] text-[#4a4a5a] hover:text-[#6b6b7a]'
           }`}
         >
           👁 {hidden ? 'הצג' : 'הסתר'}
@@ -55,9 +56,9 @@ export default function DashboardPage() {
 
       {/* Hero balance */}
       <div className="text-center py-1">
-        <p className="text-[9px] tracking-[0.2em] text-[#444] uppercase mb-2">יתרה</p>
+        <p className="text-[9px] tracking-[0.2em] text-[#3a3a4a] uppercase mb-2">יתרה</p>
         <p
-          className="text-5xl font-extrabold tracking-tight text-white transition-all duration-200"
+          className="text-5xl font-extrabold tracking-tight text-[#e2e2e8] transition-all duration-200"
           style={hidden ? { filter: 'blur(10px)', userSelect: 'none' } : {}}
         >
           ₪{balance.toFixed(0)}
@@ -67,12 +68,11 @@ export default function DashboardPage() {
       {/* Income + Spent cards */}
       <MonthlySummary transactions={transactions} salary={salary} hidden={hidden} />
 
+      {/* Quick add */}
+      <QuickAdd />
+
       {/* Spending donut */}
       <SpendingChart transactions={transactions} categories={categories} />
-
-      <div className="flex justify-center mt-1">
-        <AddExpenseModal />
-      </div>
     </div>
   );
 }

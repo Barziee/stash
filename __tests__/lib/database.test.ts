@@ -9,13 +9,13 @@ describe('seedDefaultCategories', () => {
   it('seeds 10 default categories on first run', async () => {
     await seedDefaultCategories();
     const count = await db.categories.count();
-    expect(count).toBe(10);
+    expect(count).toBe(11);
   });
 
   it('does not duplicate if called twice', async () => {
     await seedDefaultCategories();
     await seedDefaultCategories();
     const count = await db.categories.count();
-    expect(count).toBe(10);
+    expect(count).toBe(11);
   });
 });

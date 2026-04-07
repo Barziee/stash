@@ -4,9 +4,9 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '@/lib/db/database';
 
 interface Props {
-  activeMonth: string;        // YYYY-MM
+  activeMonth: string;
   onMonthChange: (month: string) => void;
-  salary: number;             // monthly salary in NIS, used for year savings bar
+  salary: number;
 }
 
 const MONTH_LABELS = ['ינו','פבר','מרץ','אפר','מאי','יוני','יול','אוג','ספט','אוק','נוב','דצמ'];
@@ -52,7 +52,6 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
 
   return (
     <div>
-      {/* Scrollable month chips */}
       <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
         {monthData.map(({ month, label, net, isFuture, hasData }) => {
           const isActive = month === activeMonth;
@@ -63,17 +62,17 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
               disabled={isFuture}
               className={`flex-shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs transition-colors ${
                 isActive
-                  ? 'bg-[#252535] border border-[#3ecf8e44] text-[#3ecf8e]'
+                  ? 'bg-[#1e1e28] border border-[#34b87a30] text-[#34b87a]'
                   : isFuture
-                  ? 'bg-[#1a1a24] text-[#2a2a2a] cursor-default'
-                  : 'bg-[#1a1a24] text-[#888] hover:text-white'
+                  ? 'bg-[#16161e] text-[#252535] cursor-default'
+                  : 'bg-[#16161e] text-[#4a4a5a] hover:text-[#8a8a9a]'
               }`}
             >
               <span className="font-semibold">{label}</span>
               <span className={`text-[10px] mt-0.5 ${
-                isFuture ? 'text-[#2a2a2a]' : hasData
-                  ? net >= 0 ? 'text-[#3ecf8e]' : 'text-[#f56565]'
-                  : 'text-[#333]'
+                isFuture ? 'text-[#252535]' : hasData
+                  ? net >= 0 ? 'text-[#34b87a]' : 'text-[#c95555]'
+                  : 'text-[#2a2a3a]'
               }`}>
                 {!isFuture && hasData ? fmtNet(net) : '—'}
               </span>
@@ -82,18 +81,17 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
         })}
       </div>
 
-      {/* Year savings bar — only shown when salary is configured */}
       {annualGoal > 0 && (
         <div className="mt-3">
-          <div className="flex justify-between text-[10px] text-[#444] mb-1.5">
+          <div className="flex justify-between text-[10px] text-[#3a3a4a] mb-1.5">
             <span>חסכונות {year}</span>
-            <span className={ytdSavings >= 0 ? 'text-[#3ecf8e]' : 'text-[#f56565]'}>
+            <span className={ytdSavings >= 0 ? 'text-[#34b87a]' : 'text-[#c95555]'}>
               {ytdSavings >= 0 ? '+' : ''}₪{ytdSavings.toFixed(0)}
             </span>
           </div>
-          <div className="h-1 bg-[#1a1a24] rounded-full overflow-hidden">
+          <div className="h-1 bg-[#16161e] rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#3ecf8e] rounded-full transition-all duration-500"
+              className="h-full bg-[#34b87a] rounded-full transition-all duration-500"
               style={{ width: `${savingsPct}%` }}
             />
           </div>

@@ -1,5 +1,5 @@
 import { db } from './database';
-import type { Transaction, Budget, Category, AppSettings } from '@/types';
+import type { Transaction, Budget, Category, AppSettings, RecurringTransaction, SavingsGoal } from '@/types';
 
 // ── Transactions ────────────────────────────────────────────────────────────
 
@@ -15,12 +15,8 @@ export async function deleteTransaction(id: number): Promise<void> {
   await db.transactions.delete(id);
 }
 
-/** Returns all transactions for a given YYYY-MM month string */
 export async function getTransactionsByMonth(month: string): Promise<Transaction[]> {
-  return db.transactions
-    .where('date')
-    .startsWith(month)
-    .toArray();
+  return db.transactions.where('date').startsWith(month).toArray();
 }
 
 // ── Budgets ─────────────────────────────────────────────────────────────────
@@ -80,11 +76,73 @@ export async function getCachedRate(): Promise<number | null> {
   if (!rate) return null;
   const fetchedAt = new Date(rate.fetchedAt);
   const ageHours = (Date.now() - fetchedAt.getTime()) / 3_600_000;
-  if (ageHours > 24) return null; // stale
+  if (ageHours > 24) return null;
   return rate.usdToNis;
 }
 
 export async function saveRate(usdToNis: number): Promise<void> {
   await db.exchangeRates.clear();
   await db.exchangeRates.add({ usdToNis, fetchedAt: new Date().toISOString() });
+}
+
+// ── Recurring Transactions ───────────────────────────────────────────────────
+
+export async function getRecurringTransactions(): Promise<RecurringTransaction[]> {
+  return db.recurringTransactions.toArray();
+}
+
+export async function addRecurringTransaction(r: Omit<RecurringTransaction, 'id'>): Promise<number> {
+  return db.recurringTransactions.add(r);
+}
+
+export async function deleteRecurringTransaction(id: number): Promise<void> {
+  await db.recurringTransactions.delete(id);
+}
+
+/**
+ * Called on app load — checks each recurring transaction and auto-adds
+ * transactions for the current month if not already added.
+ */
+export async function processRecurringTransactions(): Promise<void> {
+  const today = new Date();
+  const currentMonth = today.toISOString().slice(0, 7);
+  const dayOfMonth = today.getDate();
+
+  const recurrings = await db.recurringTransactions.toArray();
+  for (const r of recurrings) {
+    if (r.lastAddedMonth === currentMonth) continue; // already added this month
+    if (dayOfMonth < r.dayOfMonth) continue;         // not due yet
+
+    await db.transactions.add({
+      amount: r.amount,
+      currency: 'NIS',
+      originalAmount: r.amount,
+      originalCurrency: 'NIS',
+      categoryId: r.categoryId,
+      date: `${currentMonth}-${String(r.dayOfMonth).padStart(2, '0')}`,
+      notes: r.notes,
+      type: r.type,
+      source: 'manual',
+    });
+
+    await db.recurringTransactions.update(r.id!, { lastAddedMonth: currentMonth });
+  }
+}
+
+// ── Savings Goals ────────────────────────────────────────────────────────────
+
+export async function getSavingsGoals(): Promise<SavingsGoal[]> {
+  return db.savingsGoals.toArray();
+}
+
+export async function addSavingsGoal(g: Omit<SavingsGoal, 'id'>): Promise<number> {
+  return db.savingsGoals.add(g);
+}
+
+export async function updateSavingsGoal(id: number, changes: Partial<SavingsGoal>): Promise<void> {
+  await db.savingsGoals.update(id, changes);
+}
+
+export async function deleteSavingsGoal(id: number): Promise<void> {
+  await db.savingsGoals.delete(id);
 }
