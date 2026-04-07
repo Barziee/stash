@@ -17,7 +17,7 @@ export function MonthlySummary({ transactions, salary, hidden }: Props) {
   return (
     <div className="grid grid-cols-2 gap-3">
       <div className="bg-[#1a1a24] rounded-xl p-3">
-        <p className="text-[9px] tracking-[0.15em] text-[#444] uppercase mb-1.5">Income</p>
+        <p className="text-[9px] tracking-[0.15em] text-[#444] uppercase mb-1.5">הכנסה</p>
         <p
           className="text-xl font-bold text-[#3ecf8e] transition-all duration-200"
           style={hidden ? { filter: 'blur(8px)', userSelect: 'none' } : {}}
@@ -26,7 +26,7 @@ export function MonthlySummary({ transactions, salary, hidden }: Props) {
         </p>
       </div>
       <div className="bg-[#1a1a24] rounded-xl p-3">
-        <p className="text-[9px] tracking-[0.15em] text-[#444] uppercase mb-1.5">Spent</p>
+        <p className="text-[9px] tracking-[0.15em] text-[#444] uppercase mb-1.5">הוצאות</p>
         <p className="text-xl font-bold text-[#f56565]">
           ₪{totalExpenses.toFixed(0)}
         </p>

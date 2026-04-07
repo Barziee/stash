@@ -49,29 +49,29 @@ export function AddExpenseModal() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={<Button className="gap-2" />}>
         <Plus size={16} />
-        Add Expense
+        הוסף הוצאה
       </SheetTrigger>
       <SheetContent side="bottom" className="h-auto pb-8">
         <SheetHeader>
-          <SheetTitle>Add Expense</SheetTitle>
+          <SheetTitle>הוסף הוצאה</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-4 mt-4">
           <div>
-            <Label>Amount</Label>
+            <Label>סכום</Label>
             <Input
               type="number"
               inputMode="decimal"
-              placeholder="Amount"
+              placeholder="סכום"
               value={amount}
               onChange={e => setAmount(e.target.value)}
               autoFocus
             />
           </div>
           <div>
-            <Label>Category</Label>
+            <Label>קטגוריה</Label>
             <Select value={categoryId} onValueChange={setCategoryId}>
               <SelectTrigger>
-                <SelectValue placeholder="Select category" />
+                <SelectValue placeholder="בחר קטגוריה" />
               </SelectTrigger>
               <SelectContent>
                 {categories.map(c => (
@@ -83,27 +83,27 @@ export function AddExpenseModal() {
             </Select>
           </div>
           <div>
-            <Label>Currency</Label>
+            <Label>מטבע</Label>
             <Select value={currency} onValueChange={v => setCurrency(v as Currency)}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="NIS">₪ NIS</SelectItem>
-                <SelectItem value="USD">$ USD</SelectItem>
+                <SelectItem value="NIS">₪ שקל</SelectItem>
+                <SelectItem value="USD">$ דולר</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div>
-            <Label>Note (optional)</Label>
+            <Label>הערה (אופציונלי)</Label>
             <Input
-              placeholder="e.g. Coffee at work"
+              placeholder="לדוגמה: קפה בעבודה"
               value={notes}
               onChange={e => setNotes(e.target.value)}
             />
           </div>
           <Button onClick={handleSave} disabled={saving || !amount || !categoryId}>
-            {saving ? 'Saving…' : 'Save'}
+            {saving ? 'שומר...' : 'שמור'}
           </Button>
         </div>
       </SheetContent>

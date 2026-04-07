@@ -13,12 +13,12 @@ describe('BudgetCard', () => {
 
   it('shows no warning when under 80%', () => {
     render(<BudgetCard budget={budget} category={category} spent={400} />);
-    expect(screen.queryByText(/over budget/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/near limit/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/חריגה מתקציב/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/קרוב לגבול/)).not.toBeInTheDocument();
   });
 
   it('shows over budget label when spent exceeds limit', () => {
     render(<BudgetCard budget={budget} category={category} spent={1200} />);
-    expect(screen.getByText(/over budget/i)).toBeInTheDocument();
+    expect(screen.getByText(/חריגה מתקציב/)).toBeInTheDocument();
   });
 });

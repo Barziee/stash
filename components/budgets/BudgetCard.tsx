@@ -27,8 +27,8 @@ export function BudgetCard({ budget, category, spent }: Props) {
           />
           <span className="text-sm font-medium text-white">{category.name}</span>
         </div>
-        {over && <span className="text-xs font-semibold text-[#f56565]">Over budget</span>}
-        {warning && <span className="text-xs font-semibold text-[#f6c90e]">Near limit</span>}
+        {over && <span className="text-xs font-semibold text-[#f56565]">חריגה מתקציב</span>}
+        {warning && <span className="text-xs font-semibold text-[#f6c90e]">קרוב לגבול</span>}
       </div>
       {/* 4px slim progress bar */}
       <div className="h-1 bg-[#252535] rounded-full overflow-hidden mb-2">
@@ -38,8 +38,8 @@ export function BudgetCard({ budget, category, spent }: Props) {
         />
       </div>
       <div className="flex justify-between text-[10px] text-[#444]">
-        <span>₪{spent.toFixed(0)} spent</span>
-        <span>₪{budget.limitAmount} limit</span>
+        <span>הוצא ₪{spent.toFixed(0)}</span>
+        <span>מגבלה ₪{budget.limitAmount}</span>
       </div>
     </div>
   );

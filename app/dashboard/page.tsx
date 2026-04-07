@@ -46,7 +46,7 @@ export default function DashboardPage() {
               : 'bg-[#1a1a24] text-[#666] hover:text-[#888]'
           }`}
         >
-          👁 {hidden ? 'SHOW' : 'HIDE'}
+          👁 {hidden ? 'הצג' : 'הסתר'}
         </button>
       </div>
 
@@ -55,7 +55,7 @@ export default function DashboardPage() {
 
       {/* Hero balance */}
       <div className="text-center py-1">
-        <p className="text-[9px] tracking-[0.2em] text-[#444] uppercase mb-2">Balance</p>
+        <p className="text-[9px] tracking-[0.2em] text-[#444] uppercase mb-2">יתרה</p>
         <p
           className="text-5xl font-extrabold tracking-tight text-white transition-all duration-200"
           style={hidden ? { filter: 'blur(10px)', userSelect: 'none' } : {}}

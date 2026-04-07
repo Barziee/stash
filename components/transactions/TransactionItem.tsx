@@ -22,7 +22,7 @@ export function TransactionItem({ transaction, category }: Props) {
         style={{ backgroundColor: category?.color ?? '#444' }}
       />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-white">{category?.name ?? 'Unknown'}</p>
+        <p className="text-sm font-medium text-white">{category?.name ?? 'לא ידוע'}</p>
         {transaction.notes && (
           <p className="text-xs text-[#555] truncate">{transaction.notes}</p>
         )}

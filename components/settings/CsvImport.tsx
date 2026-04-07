@@ -10,6 +10,13 @@ import { useExchangeRate } from '@/hooks/useExchangeRate';
 import { convertToNIS } from '@/lib/currency/exchange';
 import type { Currency } from '@/types';
 
+const FIELD_LABELS: Record<string, string> = {
+  date: 'תאריך',
+  amount: 'סכום',
+  currency: 'מטבע',
+  description: 'תיאור',
+};
+
 export function CsvImport() {
   const categories = useCategories();
   const rate = useExchangeRate();
@@ -64,16 +71,16 @@ export function CsvImport() {
 
   return (
     <div className="flex flex-col gap-3">
-      <h3 className="font-semibold text-sm">Import from CSV</h3>
+      <h3 className="font-semibold text-sm">יבוא מ-CSV</h3>
       <input type="file" accept=".csv" onChange={handleFile} className="text-sm" />
       {headers.length > 0 && (
         <>
-          <p className="text-xs text-muted-foreground">Map CSV columns:</p>
+          <p className="text-xs text-muted-foreground">מיפוי עמודות CSV:</p>
           {(['date', 'amount', 'currency', 'description'] as const).map(field => (
             <div key={field} className="flex items-center gap-2">
-              <Label className="w-24 capitalize text-xs">{field}</Label>
+              <Label className="w-24 text-xs">{FIELD_LABELS[field]}</Label>
               <Select value={colMap[field]} onValueChange={v => setColMap(m => ({ ...m, [field]: v }))}>
-                <SelectTrigger className="flex-1"><SelectValue placeholder="Select column" /></SelectTrigger>
+                <SelectTrigger className="flex-1"><SelectValue placeholder="בחר עמודה" /></SelectTrigger>
                 <SelectContent>
                   {headers.map(h => <SelectItem key={h} value={h}>{h}</SelectItem>)}
                 </SelectContent>
@@ -81,16 +88,16 @@ export function CsvImport() {
             </div>
           ))}
           <div>
-            <Label className="text-xs">Default Category</Label>
+            <Label className="text-xs">קטגוריה ברירת מחדל</Label>
             <Select value={categoryId} onValueChange={setCategoryId}>
-              <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+              <SelectTrigger><SelectValue placeholder="בחר קטגוריה" /></SelectTrigger>
               <SelectContent>
                 {categories.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.icon} {c.name}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           <Button onClick={handleImport} disabled={importing || done}>
-            {done ? `Imported ${rows.length} rows` : importing ? 'Importing…' : `Import ${rows.length} rows`}
+            {done ? `יובאו ${rows.length} שורות` : importing ? 'מייבא...' : `ייבא ${rows.length} שורות`}
           </Button>
         </>
       )}

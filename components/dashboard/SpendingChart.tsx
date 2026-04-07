@@ -19,7 +19,7 @@ export function SpendingChart({ transactions, categories }: Props) {
     .filter(d => d.value > 0);
 
   if (data.length === 0) {
-    return <p className="text-center text-[#444] py-8 text-sm">No expenses this month</p>;
+    return <p className="text-center text-[#444] py-8 text-sm">אין הוצאות החודש</p>;
   }
 
   return (

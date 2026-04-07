@@ -31,9 +31,9 @@ export function BankAccountManager() {
 
   return (
     <div className="flex flex-col gap-3">
-      <h3 className="font-semibold text-sm">Bank Accounts</h3>
+      <h3 className="font-semibold text-sm">חשבונות בנק</h3>
       <p className="text-xs text-muted-foreground">
-        Credentials are encrypted on-device and never uploaded to any server.
+        פרטי הכניסה מוצפנים במכשיר ולא נשלחים לשום שרת.
       </p>
       {accounts?.map(a => (
         <div key={a.id} className="flex items-center justify-between">
@@ -45,23 +45,23 @@ export function BankAccountManager() {
         </div>
       ))}
       <div className="flex flex-col gap-2 mt-2 border rounded-md p-3">
-        <Label>Bank</Label>
+        <Label>בנק</Label>
         <Select value={bank} onValueChange={setBank}>
-          <SelectTrigger><SelectValue placeholder="Select bank" /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder="בחר בנק" /></SelectTrigger>
           <SelectContent>
             {SUPPORTED_BANKS.map(b => (
               <SelectItem key={b} value={b} className="capitalize">{b}</SelectItem>
             ))}
           </SelectContent>
         </Select>
-        <Label>Username / ID</Label>
-        <Input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
-        <Label>Password</Label>
-        <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-        <Label>Master password (for local encryption)</Label>
-        <Input type="password" value={masterPassword} onChange={e => setMasterPassword(e.target.value)} placeholder="Your master password" />
+        <Label>שם משתמש / ת.ז.</Label>
+        <Input value={username} onChange={e => setUsername(e.target.value)} placeholder="שם משתמש" />
+        <Label>סיסמה</Label>
+        <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="סיסמה" />
+        <Label>סיסמת מאסטר (להצפנה מקומית)</Label>
+        <Input type="password" value={masterPassword} onChange={e => setMasterPassword(e.target.value)} placeholder="סיסמת מאסטר שלך" />
         <Button onClick={handleAdd} disabled={saving}>
-          {saving ? 'Saving…' : 'Add Account'}
+          {saving ? 'שומר...' : 'הוסף חשבון'}
         </Button>
       </div>
     </div>

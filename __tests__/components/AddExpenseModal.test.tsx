@@ -20,14 +20,14 @@ jest.mock('@/hooks/useExchangeRate', () => ({
 describe('AddExpenseModal', () => {
   it('renders trigger button', () => {
     render(<AddExpenseModal />);
-    expect(screen.getByRole('button', { name: /add expense/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /הוסף הוצאה/i })).toBeInTheDocument();
   });
 
   it('opens modal on button click', async () => {
     render(<AddExpenseModal />);
-    fireEvent.click(screen.getByRole('button', { name: /add expense/i }));
+    fireEvent.click(screen.getByRole('button', { name: /הוסף הוצאה/i }));
     await waitFor(() => {
-      expect(screen.getByPlaceholderText(/amount/i)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(/סכום/i)).toBeInTheDocument();
     });
   });
 });

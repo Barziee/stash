@@ -9,7 +9,7 @@ interface Props {
   salary: number;             // monthly salary in NIS, used for year savings bar
 }
 
-const MONTH_LABELS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTH_LABELS = ['ינו','פבר','מרץ','אפר','מאי','יוני','יול','אוג','ספט','אוק','נוב','דצמ'];
 
 export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
   const year = activeMonth.slice(0, 4);
@@ -86,7 +86,7 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
       {annualGoal > 0 && (
         <div className="mt-3">
           <div className="flex justify-between text-[10px] text-[#444] mb-1.5">
-            <span>{year} Savings</span>
+            <span>חסכונות {year}</span>
             <span className={ytdSavings >= 0 ? 'text-[#3ecf8e]' : 'text-[#f56565]'}>
               {ytdSavings >= 0 ? '+' : ''}₪{ytdSavings.toFixed(0)}
             </span>

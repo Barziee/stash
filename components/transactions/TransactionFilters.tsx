@@ -23,11 +23,11 @@ export function TransactionFilters({
           <button
             key={type}
             onClick={() => onTypeChange(type)}
-            className={`px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide transition-colors ${
+            className={`px-3 py-1 rounded-full text-xs font-medium tracking-wide transition-colors ${
               filterType === type ? activePill : idlePill
             }`}
           >
-            {type === 'all' ? 'All' : type === 'expense' ? 'Expenses' : 'Income'}
+            {type === 'all' ? 'הכל' : type === 'expense' ? 'הוצאות' : 'הכנסות'}
           </button>
         ))}
       </div>
@@ -39,7 +39,7 @@ export function TransactionFilters({
             filterCategory === 'all' ? activePill : idlePill
           }`}
         >
-          All
+          הכל
         </button>
         {categories.map(c => {
           const isActive = filterCategory === String(c.id);

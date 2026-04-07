@@ -10,7 +10,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 function formatMonth(d: Date) { return d.toISOString().slice(0, 7); }
 function monthLabel(yyyymm: string) {
   const [y, m] = yyyymm.split('-');
-  return new Date(Number(y), Number(m) - 1).toLocaleString('default', { month: 'long', year: 'numeric' });
+  return new Date(Number(y), Number(m) - 1).toLocaleString('he-IL', { month: 'long', year: 'numeric' });
 }
 
 export default function BudgetsPage() {
@@ -31,9 +31,9 @@ export default function BudgetsPage() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <Button variant="ghost" size="icon" onClick={prev}><ChevronLeft /></Button>
+        <Button variant="ghost" size="icon" onClick={prev}><ChevronRight /></Button>
         <h2 className="text-base font-semibold">{monthLabel(month)}</h2>
-        <Button variant="ghost" size="icon" onClick={next}><ChevronRight /></Button>
+        <Button variant="ghost" size="icon" onClick={next}><ChevronLeft /></Button>
       </div>
       <BudgetList budgets={budgets} categories={categories} transactions={transactions} />
     </div>

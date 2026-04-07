@@ -4,10 +4,10 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, ArrowLeftRight, PiggyBank, Settings } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { href: '/dashboard',    label: 'Dashboard',    Icon: LayoutDashboard },
-  { href: '/transactions', label: 'Transactions', Icon: ArrowLeftRight },
-  { href: '/budgets',      label: 'Budgets',      Icon: PiggyBank },
-  { href: '/settings',     label: 'Settings',     Icon: Settings },
+  { href: '/dashboard',    label: 'לוח בקרה',  Icon: LayoutDashboard },
+  { href: '/transactions', label: 'עסקאות',    Icon: ArrowLeftRight },
+  { href: '/budgets',      label: 'תקציבים',   Icon: PiggyBank },
+  { href: '/settings',     label: 'הגדרות',    Icon: Settings },
 ];
 
 export function BottomNav() {

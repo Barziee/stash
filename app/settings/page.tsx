@@ -24,18 +24,18 @@ export default function SettingsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-lg font-bold">Settings</h2>
+      <h2 className="text-lg font-bold">הגדרות</h2>
 
       <Card>
-        <CardHeader><CardTitle className="text-sm">Monthly Salary (NIS)</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-sm">משכורת חודשית (₪)</CardTitle></CardHeader>
         <CardContent className="flex gap-2">
           <Input
             type="number"
             value={salary}
             onChange={e => setSalary(e.target.value)}
-            placeholder="e.g. 12000"
+            placeholder="לדוגמה: 12000"
           />
-          <Button onClick={handleSaveSalary}>{saved ? 'Saved!' : 'Save'}</Button>
+          <Button onClick={handleSaveSalary}>{saved ? 'נשמר!' : 'שמור'}</Button>
         </CardContent>
       </Card>
 
