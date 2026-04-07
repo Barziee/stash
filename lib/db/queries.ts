@@ -129,6 +129,26 @@ export async function processRecurringTransactions(): Promise<void> {
   }
 }
 
+// ── Analytics ────────────────────────────────────────────────────────────────
+
+/**
+ * Returns transactions for a range of months (e.g. last N months).
+ * months: array of YYYY-MM strings
+ */
+export async function getTransactionsForMonths(months: string[]): Promise<Transaction[]> {
+  const results = await Promise.all(
+    months.map(m => db.transactions.where('date').startsWith(m).toArray())
+  );
+  return results.flat();
+}
+
+/**
+ * Returns all transactions ever recorded.
+ */
+export async function getAllTransactions(): Promise<Transaction[]> {
+  return db.transactions.toArray();
+}
+
 // ── Savings Goals ────────────────────────────────────────────────────────────
 
 export async function getSavingsGoals(): Promise<SavingsGoal[]> {
