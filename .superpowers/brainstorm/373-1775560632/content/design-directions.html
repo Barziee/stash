@@ -1,0 +1,141 @@
+<h2>Dashboard Design Direction</h2>
+<p class="subtitle">Pick the vibe that feels right — we'll apply it across all screens</p>
+
+<div class="cards">
+
+  <!-- Option A: Dark Finance -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f0f13;padding:16px;border-radius:8px;font-family:system-ui">
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="color:#aaa;font-size:11px;letter-spacing:1px;text-transform:uppercase">April 2026</span>
+        <span style="background:#1e1e28;color:#888;border-radius:20px;padding:3px 10px;font-size:10px">👁 Hide</span>
+      </div>
+      <!-- Hero balance -->
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="color:#555;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Balance</div>
+        <div style="color:#fff;font-size:32px;font-weight:700;letter-spacing:-1px">₪8,420</div>
+        <div style="color:#3ecf8e;font-size:12px;margin-top:2px">↑ 12% vs last month</div>
+      </div>
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:#1a1a24;border-radius:10px;padding:10px">
+          <div style="color:#555;font-size:9px;text-transform:uppercase;letter-spacing:1px">Income</div>
+          <div style="color:#3ecf8e;font-size:16px;font-weight:600;margin-top:2px">₪12,000</div>
+        </div>
+        <div style="background:#1a1a24;border-radius:10px;padding:10px">
+          <div style="color:#555;font-size:9px;text-transform:uppercase;letter-spacing:1px">Spent</div>
+          <div style="color:#f56565;font-size:16px;font-weight:600;margin-top:2px">₪3,580</div>
+        </div>
+      </div>
+      <!-- Transaction rows -->
+      <div style="background:#1a1a24;border-radius:10px;overflow:hidden">
+        <div style="display:flex;align-items:center;padding:8px 10px;border-bottom:1px solid #252530">
+          <div style="width:6px;height:32px;background:#FF6B6B;border-radius:3px;margin-right:10px"></div>
+          <span style="color:#ccc;font-size:11px;flex:1">Food & Dining</span>
+          <span style="color:#f56565;font-size:11px;font-weight:600">-₪420</span>
+        </div>
+        <div style="display:flex;align-items:center;padding:8px 10px">
+          <div style="width:6px;height:32px;background:#4ECDC4;border-radius:3px;margin-right:10px"></div>
+          <span style="color:#ccc;font-size:11px;flex:1">Transport</span>
+          <span style="color:#f56565;font-size:11px;font-weight:600">-₪180</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Dark Finance</h3>
+      <p>Dark background, green accents, crypto-app energy. Revolut / Robinhood feel.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Clean Light -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f5f7ff;padding:16px;border-radius:8px;font-family:system-ui">
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="color:#888;font-size:11px;letter-spacing:1px;text-transform:uppercase">April 2026</span>
+        <span style="background:#e8eaff;color:#6366f1;border-radius:20px;padding:3px 10px;font-size:10px">👁 Hide</span>
+      </div>
+      <!-- Hero card with gradient -->
+      <div style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:14px;padding:16px;margin-bottom:12px;text-align:center">
+        <div style="color:rgba(255,255,255,0.7);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Balance</div>
+        <div style="color:#fff;font-size:30px;font-weight:700;letter-spacing:-1px">₪8,420</div>
+        <div style="color:rgba(255,255,255,0.8);font-size:11px;margin-top:4px">↑ 12% vs last month</div>
+      </div>
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:#fff;border-radius:10px;padding:10px;box-shadow:0 1px 4px rgba(0,0,0,0.06)">
+          <div style="color:#aaa;font-size:9px;text-transform:uppercase;letter-spacing:1px">Income</div>
+          <div style="color:#10b981;font-size:16px;font-weight:600;margin-top:2px">₪12,000</div>
+        </div>
+        <div style="background:#fff;border-radius:10px;padding:10px;box-shadow:0 1px 4px rgba(0,0,0,0.06)">
+          <div style="color:#aaa;font-size:9px;text-transform:uppercase;letter-spacing:1px">Spent</div>
+          <div style="color:#ef4444;font-size:16px;font-weight:600;margin-top:2px">₪3,580</div>
+        </div>
+      </div>
+      <!-- Transactions -->
+      <div style="background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06)">
+        <div style="display:flex;align-items:center;padding:8px 10px;border-bottom:1px solid #f3f4f6">
+          <div style="width:6px;height:32px;background:#FF6B6B;border-radius:3px;margin-right:10px"></div>
+          <span style="color:#374151;font-size:11px;flex:1">Food & Dining</span>
+          <span style="color:#ef4444;font-size:11px;font-weight:600">-₪420</span>
+        </div>
+        <div style="display:flex;align-items:center;padding:8px 10px">
+          <div style="width:6px;height:32px;background:#4ECDC4;border-radius:3px;margin-right:10px"></div>
+          <span style="color:#374151;font-size:11px;flex:1">Transport</span>
+          <span style="color:#ef4444;font-size:11px;font-weight:600">-₪180</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Clean Light</h3>
+      <p>Purple gradient hero card, white panels, soft shadows. Monzo / N26 feel.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Minimal Warm -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#faf9f7;padding:16px;border-radius:8px;font-family:system-ui">
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="color:#999;font-size:11px;letter-spacing:1px;text-transform:uppercase">April 2026</span>
+        <span style="background:#f0ece4;color:#92845a;border-radius:20px;padding:3px 10px;font-size:10px">👁 Hide</span>
+      </div>
+      <!-- Big number, no card -->
+      <div style="margin-bottom:16px">
+        <div style="color:#bbb;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Balance</div>
+        <div style="color:#1a1a1a;font-size:36px;font-weight:800;letter-spacing:-2px;line-height:1">₪8,420</div>
+        <div style="color:#10b981;font-size:11px;margin-top:4px">↑ 12% vs last month</div>
+      </div>
+      <!-- Inline stats -->
+      <div style="display:flex;gap:16px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #ece9e3">
+        <div>
+          <div style="color:#bbb;font-size:9px;text-transform:uppercase;letter-spacing:1px">Income</div>
+          <div style="color:#10b981;font-size:14px;font-weight:600;margin-top:1px">₪12,000</div>
+        </div>
+        <div>
+          <div style="color:#bbb;font-size:9px;text-transform:uppercase;letter-spacing:1px">Spent</div>
+          <div style="color:#ef4444;font-size:14px;font-weight:600;margin-top:1px">₪3,580</div>
+        </div>
+      </div>
+      <!-- Transactions -->
+      <div>
+        <div style="display:flex;align-items:center;padding:6px 0;border-bottom:1px solid #f0ece4">
+          <div style="width:8px;height:8px;background:#FF6B6B;border-radius:50%;margin-right:10px"></div>
+          <span style="color:#555;font-size:11px;flex:1">Food & Dining</span>
+          <span style="color:#ef4444;font-size:11px;font-weight:600">-₪420</span>
+        </div>
+        <div style="display:flex;align-items:center;padding:6px 0">
+          <div style="width:8px;height:8px;background:#4ECDC4;border-radius:50%;margin-right:10px"></div>
+          <span style="color:#555;font-size:11px;flex:1">Transport</span>
+          <span style="color:#ef4444;font-size:11px;font-weight:600">-₪180</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Minimal Warm</h3>
+      <p>Oversized numbers, warm off-white, no card borders. YNAB / Copilot feel.</p>
+    </div>
+  </div>
+
+</div>

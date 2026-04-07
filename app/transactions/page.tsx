@@ -37,7 +37,7 @@ export default function TransactionsPage() {
   }
 
   return (
-    <div className="p-4 flex flex-col gap-4 max-w-2xl mx-auto">
+    <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <Button variant="ghost" size="icon" onClick={prev}><ChevronLeft /></Button>
         <h2 className="text-base font-semibold">{monthLabel(month)}</h2>

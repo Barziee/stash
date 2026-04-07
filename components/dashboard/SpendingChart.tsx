@@ -31,7 +31,7 @@ export function SpendingChart({ transactions, categories }: Props) {
           ))}
         </Pie>
         <Tooltip
-          formatter={(v: number) => [`₪${v.toFixed(2)}`, '']}
+          formatter={(v: number) => `₪${v.toFixed(2)}`}
           contentStyle={{
             background: '#1a1a24',
             border: '1px solid #22222e',

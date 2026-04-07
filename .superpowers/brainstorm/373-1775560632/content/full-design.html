@@ -1,0 +1,171 @@
+<h2>Full UI Design — Dark Finance</h2>
+<p class="subtitle">All four screens + privacy mode. Let me know if anything needs tweaking.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px">
+
+  <!-- Dashboard -->
+  <div class="mockup">
+    <div class="mockup-header">Dashboard</div>
+    <div class="mockup-body" style="background:#0f0f13;padding:14px;font-family:system-ui;min-height:320px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <span style="color:#666;font-size:10px;letter-spacing:1.5px;text-transform:uppercase">◀ April 2026 ▶</span>
+        <button style="background:#1e1e28;border:none;color:#888;border-radius:20px;padding:4px 12px;font-size:10px;cursor:pointer;letter-spacing:.5px">👁 HIDE</button>
+      </div>
+      <!-- Hero -->
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="color:#444;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">BALANCE</div>
+        <div style="color:#fff;font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1">₪8,420</div>
+        <div style="color:#3ecf8e;font-size:11px;margin-top:6px;letter-spacing:.5px">↑ 12% vs last month</div>
+      </div>
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+        <div style="background:#1a1a24;border-radius:12px;padding:12px">
+          <div style="color:#444;font-size:9px;letter-spacing:1.5px;text-transform:uppercase">INCOME</div>
+          <div style="color:#3ecf8e;font-size:18px;font-weight:700;margin-top:4px">₪12,000</div>
+        </div>
+        <div style="background:#1a1a24;border-radius:12px;padding:12px">
+          <div style="color:#444;font-size:9px;letter-spacing:1.5px;text-transform:uppercase">SPENT</div>
+          <div style="color:#f56565;font-size:18px;font-weight:700;margin-top:4px">₪3,580</div>
+        </div>
+      </div>
+      <!-- Donut placeholder -->
+      <div style="background:#1a1a24;border-radius:12px;padding:10px;text-align:center">
+        <div style="color:#444;font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">BY CATEGORY</div>
+        <div style="display:flex;justify-content:center;gap:6px">
+          <div style="width:10px;height:10px;background:#FF6B6B;border-radius:50%"></div><span style="color:#666;font-size:9px">Food</span>
+          <div style="width:10px;height:10px;background:#4ECDC4;border-radius:50%;margin-left:6px"></div><span style="color:#666;font-size:9px">Transport</span>
+          <div style="width:10px;height:10px;background:#DDA0DD;border-radius:50%;margin-left:6px"></div><span style="color:#666;font-size:9px">Housing</span>
+        </div>
+        <div style="width:80px;height:80px;border-radius:50%;background:conic-gradient(#FF6B6B 0% 40%,#4ECDC4 40% 65%,#DDA0DD 65% 80%,#F7DC6F 80% 100%);margin:8px auto"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard — Privacy Mode ON -->
+  <div class="mockup">
+    <div class="mockup-header">Dashboard — 👁 Hidden Mode</div>
+    <div class="mockup-body" style="background:#0f0f13;padding:14px;font-family:system-ui;min-height:320px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <span style="color:#666;font-size:10px;letter-spacing:1.5px;text-transform:uppercase">◀ April 2026 ▶</span>
+        <button style="background:#3ecf8e22;border:1px solid #3ecf8e44;color:#3ecf8e;border-radius:20px;padding:4px 12px;font-size:10px;cursor:pointer;letter-spacing:.5px">👁 SHOW</button>
+      </div>
+      <!-- Hero hidden -->
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="color:#444;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">BALANCE</div>
+        <div style="color:#333;font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1;filter:blur(8px);user-select:none">₪8,420</div>
+        <div style="color:#3ecf8e;font-size:11px;margin-top:6px;letter-spacing:.5px">↑ 12% vs last month</div>
+      </div>
+      <!-- Stats — income hidden, spent visible -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+        <div style="background:#1a1a24;border-radius:12px;padding:12px">
+          <div style="color:#444;font-size:9px;letter-spacing:1.5px;text-transform:uppercase">INCOME</div>
+          <div style="color:#333;font-size:18px;font-weight:700;margin-top:4px;filter:blur(6px);user-select:none">₪12,000</div>
+        </div>
+        <div style="background:#1a1a24;border-radius:12px;padding:12px">
+          <div style="color:#444;font-size:9px;letter-spacing:1.5px;text-transform:uppercase">SPENT</div>
+          <div style="color:#f56565;font-size:18px;font-weight:700;margin-top:4px">₪3,580</div>
+        </div>
+      </div>
+      <div style="background:#1a1a24;border-radius:12px;padding:10px;text-align:center;color:#444;font-size:10px">Chart visible — spending only</div>
+    </div>
+  </div>
+
+  <!-- Transactions -->
+  <div class="mockup">
+    <div class="mockup-header">Transactions</div>
+    <div class="mockup-body" style="background:#0f0f13;padding:14px;font-family:system-ui">
+      <div style="background:#1a1a24;border-radius:12px;overflow:hidden">
+        <div style="display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid #22222e">
+          <div style="width:4px;height:36px;background:#FF6B6B;border-radius:2px;margin-right:12px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="color:#ddd;font-size:12px;font-weight:500">Food & Dining</div>
+            <div style="color:#555;font-size:10px;margin-top:2px">Supermarket · 2026-04-05</div>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#f56565;font-size:13px;font-weight:600">-₪420</div>
+            <div style="color:#444;font-size:9px;margin-top:2px">manual</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid #22222e">
+          <div style="width:4px;height:36px;background:#4ECDC4;border-radius:2px;margin-right:12px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="color:#ddd;font-size:12px;font-weight:500">Transportation</div>
+            <div style="color:#555;font-size:10px;margin-top:2px">Bus · 2026-04-04</div>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#f56565;font-size:13px;font-weight:600">-₪180</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding:10px 12px">
+          <div style="width:4px;height:36px;background:#58D68D;border-radius:2px;margin-right:12px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="color:#ddd;font-size:12px;font-weight:500">Salary</div>
+            <div style="color:#555;font-size:10px;margin-top:2px">Monthly · 2026-04-01</div>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#3ecf8e;font-size:13px;font-weight:600">+₪12,000</div>
+          </div>
+        </div>
+      </div>
+      <!-- Filter pills -->
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <span style="background:#3ecf8e22;color:#3ecf8e;border-radius:20px;padding:4px 10px;font-size:9px;letter-spacing:.5px">ALL</span>
+        <span style="background:#1a1a24;color:#555;border-radius:20px;padding:4px 10px;font-size:9px;letter-spacing:.5px">EXPENSES</span>
+        <span style="background:#1a1a24;color:#555;border-radius:20px;padding:4px 10px;font-size:9px;letter-spacing:.5px">INCOME</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Budgets -->
+  <div class="mockup">
+    <div class="mockup-header">Budgets</div>
+    <div class="mockup-body" style="background:#0f0f13;padding:14px;font-family:system-ui">
+      <!-- Budget card 1 — under limit -->
+      <div style="background:#1a1a24;border-radius:12px;padding:12px;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:8px;height:8px;background:#FF6B6B;border-radius:50%"></div>
+            <span style="color:#ddd;font-size:12px;font-weight:500">Food & Dining</span>
+          </div>
+          <span style="color:#555;font-size:10px">₪420 / ₪800</span>
+        </div>
+        <!-- Slim progress bar -->
+        <div style="height:4px;background:#252530;border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:52%;background:linear-gradient(90deg,#3ecf8e,#45d68f);border-radius:2px;transition:width .3s"></div>
+        </div>
+        <div style="color:#555;font-size:9px;margin-top:5px;text-align:right">52% used</div>
+      </div>
+      <!-- Budget card 2 — near limit (yellow) -->
+      <div style="background:#1a1a24;border-radius:12px;padding:12px;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:8px;height:8px;background:#DDA0DD;border-radius:50%"></div>
+            <span style="color:#ddd;font-size:12px;font-weight:500">Housing</span>
+          </div>
+          <span style="color:#f6c90e;font-size:10px">Near limit</span>
+        </div>
+        <div style="height:4px;background:#252530;border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:85%;background:linear-gradient(90deg,#f6c90e,#f7d325);border-radius:2px"></div>
+        </div>
+        <div style="color:#555;font-size:9px;margin-top:5px;text-align:right">85% used</div>
+      </div>
+      <!-- Budget card 3 — over (red) -->
+      <div style="background:#1a1a24;border-radius:12px;padding:12px;border:1px solid #f5656522">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:8px;height:8px;background:#4ECDC4;border-radius:50%"></div>
+            <span style="color:#ddd;font-size:12px;font-weight:500">Transport</span>
+          </div>
+          <span style="color:#f56565;font-size:10px;font-weight:600">Over budget</span>
+        </div>
+        <div style="height:4px;background:#252530;border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:100%;background:linear-gradient(90deg,#f56565,#f87171);border-radius:2px"></div>
+        </div>
+        <div style="color:#f56565;font-size:9px;margin-top:5px;text-align:right">₪50 over</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;text-align:center">The "hidden" mode blurs balance + income — expenses and the chart stay fully visible. Does this look right?</p>
