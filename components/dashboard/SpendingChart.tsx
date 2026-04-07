@@ -19,7 +19,7 @@ export function SpendingChart({ transactions, categories }: Props) {
     .filter(d => d.value > 0);
 
   if (data.length === 0) {
-    return <p className="text-center text-muted-foreground py-8">No expenses this month</p>;
+    return <p className="text-center text-[#444] py-8 text-sm">No expenses this month</p>;
   }
 
   return (
@@ -30,7 +30,17 @@ export function SpendingChart({ transactions, categories }: Props) {
             <Cell key={i} fill={entry.color} />
           ))}
         </Pie>
-        <Tooltip formatter={(v: number) => `₪${v.toFixed(2)}`} />
+        <Tooltip
+          formatter={(v: number) => [`₪${v.toFixed(2)}`, '']}
+          contentStyle={{
+            background: '#1a1a24',
+            border: '1px solid #22222e',
+            borderRadius: '8px',
+            color: '#fff',
+            fontSize: '12px',
+          }}
+          labelStyle={{ color: '#888' }}
+        />
       </PieChart>
     </ResponsiveContainer>
   );
