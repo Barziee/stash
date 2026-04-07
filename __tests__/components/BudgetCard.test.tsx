@@ -7,14 +7,14 @@ const category = { id: 1, name: 'Food', color: '#FF6B6B', icon: '🍔' };
 describe('BudgetCard', () => {
   it('shows category name and limit', () => {
     render(<BudgetCard budget={budget} category={category} spent={400} />);
-    expect(screen.getByText('🍔 Food')).toBeInTheDocument();
+    expect(screen.getByText('Food')).toBeInTheDocument();
     expect(screen.getByText(/₪1000/)).toBeInTheDocument();
   });
 
-  it('shows green progress bar when under 80%', () => {
+  it('shows no warning when under 80%', () => {
     render(<BudgetCard budget={budget} category={category} spent={400} />);
-    // 400/1000 = 40% — should not have warning class
     expect(screen.queryByText(/over budget/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/near limit/i)).not.toBeInTheDocument();
   });
 
   it('shows over budget label when spent exceeds limit', () => {
