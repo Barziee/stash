@@ -2,6 +2,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { MonthStrip } from '@/components/dashboard/MonthStrip';
 import { SpendingChart } from '@/components/dashboard/SpendingChart';
+import { SpendingForecast } from '@/components/dashboard/SpendingForecast';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useCategories } from '@/hooks/useCategories';
 import { usePrivacyMode } from '@/hooks/usePrivacyMode';
@@ -85,8 +86,8 @@ export default function DashboardPage() {
           onClick={toggleHidden}
           className={`text-[10px] tracking-widest px-3 py-1.5 rounded-full transition-colors ${
             hidden
-              ? 'bg-[#4a9e7818] border border-[#4a9e7830] text-[#4a9e78]'
-              : 'bg-[#191919] text-[#505052] hover:text-[#666668]'
+              ? 'bg-primary/10 border border-primary/20 text-primary'
+              : 'bg-card text-muted-foreground hover:text-foreground'
           }`}
         >
           👁 {hidden ? 'הצג' : 'הסתר'}
@@ -98,12 +99,12 @@ export default function DashboardPage() {
 
       {/* Spending hero */}
       <div className="text-center">
-        <p className="text-[9px] tracking-[0.2em] text-[#404042] uppercase mb-2">הוצאות החודש</p>
-        <p className="text-5xl font-extrabold tracking-tight text-[#d1d1d4]">
+        <p className="text-[9px] tracking-[0.2em] text-muted-foreground/60 uppercase mb-2">הוצאות החודש</p>
+        <p className="text-5xl font-extrabold tracking-tight text-foreground">
           ₪{totalSpent.toFixed(0)}
         </p>
         {vsLastMonth !== null && (
-          <p className={`text-xs mt-2 ${vsLastMonth > 0 ? 'text-[#a84444]' : 'text-[#4a9e78]'}`}>
+          <p className={`text-xs mt-2 ${vsLastMonth > 0 ? 'text-[var(--spend)]' : 'text-[var(--income)]'}`}>
             {vsLastMonth > 0 ? '↑' : '↓'} {Math.abs(vsLastMonth).toFixed(0)}% לעומת חודש שעבר
           </p>
         )}
@@ -111,22 +112,22 @@ export default function DashboardPage() {
 
       {/* Stat chips */}
       <div className="grid grid-cols-3 gap-2">
-        <div className="bg-[#191919] rounded-xl p-3 text-center">
-          <p className="text-[9px] text-[#404042] uppercase tracking-wide mb-1">ממוצע יומי</p>
-          <p className="text-sm font-bold text-[#d1d1d4]">₪{dailyAvg.toFixed(0)}</p>
+        <div className="bg-card rounded-xl p-3 text-center">
+          <p className="text-[9px] text-muted-foreground/50 uppercase tracking-wide mb-1">ממוצע יומי</p>
+          <p className="text-sm font-bold text-foreground">₪{dailyAvg.toFixed(0)}</p>
         </div>
-        <div className="bg-[#191919] rounded-xl p-3 text-center">
-          <p className="text-[9px] text-[#404042] uppercase tracking-wide mb-1">
+        <div className="bg-card rounded-xl p-3 text-center">
+          <p className="text-[9px] text-muted-foreground/50 uppercase tracking-wide mb-1">
             {isCurrentMonth ? 'ימים נותרים' : 'ימים בחודש'}
           </p>
-          <p className="text-sm font-bold text-[#d1d1d4]">
+          <p className="text-sm font-bold text-foreground">
             {isCurrentMonth ? daysLeft : daysInMonth}
           </p>
         </div>
-        <div className="bg-[#191919] rounded-xl p-3 text-center">
-          <p className="text-[9px] text-[#404042] uppercase tracking-wide mb-1">יתרה</p>
+        <div className="bg-card rounded-xl p-3 text-center">
+          <p className="text-[9px] text-muted-foreground/50 uppercase tracking-wide mb-1">יתרה</p>
           <p
-            className={`text-sm font-bold transition-all ${balance >= 0 ? 'text-[#4a9e78]' : 'text-[#a84444]'}`}
+            className={`text-sm font-bold transition-all ${balance >= 0 ? 'text-[var(--income)]' : 'text-[var(--spend)]'}`}
             style={hidden ? { filter: 'blur(6px)', userSelect: 'none' } : {}}
           >
             ₪{balance.toFixed(0)}
@@ -136,8 +137,8 @@ export default function DashboardPage() {
 
       {/* Top spending categories */}
       {topCategories.length > 0 && (
-        <div className="bg-[#191919] rounded-2xl p-4 flex flex-col gap-2.5">
-          <p className="text-[9px] tracking-[0.2em] text-[#404042] uppercase mb-1">הוצאות לפי קטגוריה</p>
+        <div className="bg-card rounded-2xl p-4 flex flex-col gap-2.5">
+          <p className="text-[9px] tracking-[0.2em] text-muted-foreground/50 uppercase mb-1">הוצאות לפי קטגוריה</p>
           {topCategories.map(({ category, amount }) => {
             const pct = totalSpent > 0 ? (amount / totalSpent) * 100 : 0;
             return (
@@ -145,10 +146,10 @@ export default function DashboardPage() {
                 <span className="text-base w-6">{category.icon}</span>
                 <div className="flex-1">
                   <div className="flex justify-between text-xs mb-0.5">
-                    <span className="text-[#d1d1d4]">{category.name}</span>
-                    <span className="text-[#666668]">₪{amount.toFixed(0)}</span>
+                    <span className="text-foreground">{category.name}</span>
+                    <span className="text-muted-foreground">₪{amount.toFixed(0)}</span>
                   </div>
-                  <div className="h-1 bg-[#222224] rounded-full overflow-hidden">
+                  <div className="h-1 bg-secondary rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full"
                       style={{ width: `${pct}%`, backgroundColor: category.color }}
@@ -160,6 +161,15 @@ export default function DashboardPage() {
           })}
         </div>
       )}
+
+      {/* Spending forecast */}
+      <SpendingForecast
+        dailyAvg={dailyAvg}
+        daysInMonth={daysInMonth}
+        totalSpent={totalSpent}
+        salary={salary}
+        isCurrentMonth={isCurrentMonth}
+      />
 
       {/* Pie chart */}
       <SpendingChart transactions={transactions} categories={categories} />

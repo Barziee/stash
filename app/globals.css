@@ -48,61 +48,66 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* ── Stash — neutral charcoal, no glow ── */
+/* ── Stash — Midnight Indigo palette ── */
 :root {
-  --background: #111113;
-  --foreground: #d1d1d4;
-  --card: #191919;
-  --card-foreground: #d1d1d4;
-  --popover: #191919;
-  --popover-foreground: #d1d1d4;
-  --primary: #4a9e78;
-  --primary-foreground: #111113;
-  --secondary: #222224;
-  --secondary-foreground: #d1d1d4;
-  --muted: #222224;
-  --muted-foreground: #666668;
-  --accent: #222224;
-  --accent-foreground: #d1d1d4;
-  --destructive: #a84444;
-  --border: #272729;
-  --input: #272729;
-  --ring: #4a9e78;
+  --background: #0c0d18;
+  --foreground: #dde0f5;
+  --card: #131425;
+  --card-foreground: #dde0f5;
+  --popover: #131425;
+  --popover-foreground: #dde0f5;
+  --primary: #7c6ff7;
+  --primary-foreground: #0c0d18;
+  --secondary: #1a1c30;
+  --secondary-foreground: #dde0f5;
+  --muted: #1a1c30;
+  --muted-foreground: #6b72a8;
+  --accent: #1f2140;
+  --accent-foreground: #dde0f5;
+  --destructive: #f0736a;
+  --border: #1f2140;
+  --input: #1f2140;
+  --ring: #7c6ff7;
   --radius: 0.75rem;
-  --chart-1: #4a9e78;
-  --chart-2: #a84444;
-  --chart-3: #9e8030;
-  --chart-4: #3a8a8a;
-  --chart-5: #7a6898;
-  --sidebar: #191919;
-  --sidebar-foreground: #d1d1d4;
-  --sidebar-primary: #4a9e78;
-  --sidebar-primary-foreground: #111113;
-  --sidebar-accent: #222224;
-  --sidebar-accent-foreground: #d1d1d4;
-  --sidebar-border: #272729;
-  --sidebar-ring: #4a9e78;
+  /* semantic spend/income */
+  --income: #3ecf8e;
+  --spend: #f0736a;
+  --warn: #e8a838;
+  /* charts: violet · teal · amber · rose · sky */
+  --chart-1: #7c6ff7;
+  --chart-2: #3ecf8e;
+  --chart-3: #e8a838;
+  --chart-4: #f472b6;
+  --chart-5: #38bdf8;
+  --sidebar: #131425;
+  --sidebar-foreground: #dde0f5;
+  --sidebar-primary: #7c6ff7;
+  --sidebar-primary-foreground: #0c0d18;
+  --sidebar-accent: #1a1c30;
+  --sidebar-accent-foreground: #dde0f5;
+  --sidebar-border: #1f2140;
+  --sidebar-ring: #7c6ff7;
 }
 
 .dark {
-  --background: #111113;
-  --foreground: #d1d1d4;
-  --card: #191919;
-  --card-foreground: #d1d1d4;
-  --popover: #191919;
-  --popover-foreground: #d1d1d4;
-  --primary: #4a9e78;
-  --primary-foreground: #111113;
-  --secondary: #222224;
-  --secondary-foreground: #d1d1d4;
-  --muted: #222224;
-  --muted-foreground: #666668;
-  --accent: #222224;
-  --accent-foreground: #d1d1d4;
-  --destructive: #a84444;
-  --border: #272729;
-  --input: #272729;
-  --ring: #4a9e78;
+  --background: #0c0d18;
+  --foreground: #dde0f5;
+  --card: #131425;
+  --card-foreground: #dde0f5;
+  --popover: #131425;
+  --popover-foreground: #dde0f5;
+  --primary: #7c6ff7;
+  --primary-foreground: #0c0d18;
+  --secondary: #1a1c30;
+  --secondary-foreground: #dde0f5;
+  --muted: #1a1c30;
+  --muted-foreground: #6b72a8;
+  --accent: #1f2140;
+  --accent-foreground: #dde0f5;
+  --destructive: #f0736a;
+  --border: #1f2140;
+  --input: #1f2140;
+  --ring: #7c6ff7;
 }
 
 @layer base {

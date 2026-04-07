@@ -9,7 +9,12 @@ interface Props {
 export function TransactionList({ transactions, categories }: Props) {
   const catMap = Object.fromEntries(categories.map(c => [c.id!, c]));
   if (transactions.length === 0) {
-    return <p className="text-center text-muted-foreground py-8">No transactions</p>;
+    return (
+      <div className="flex flex-col items-center gap-2 py-12 text-muted-foreground/40">
+        <span className="text-4xl">🪹</span>
+        <p className="text-sm">אין עסקאות</p>
+      </div>
+    );
   }
   return (
     <div>
