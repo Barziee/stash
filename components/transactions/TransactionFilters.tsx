@@ -1,5 +1,4 @@
 'use client';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Category } from '@/types';
 
 interface Props {
@@ -13,31 +12,52 @@ interface Props {
 export function TransactionFilters({
   categories, filterCategory, filterType, onCategoryChange, onTypeChange
 }: Props) {
+  const activePill = 'bg-[#3ecf8e22] border border-[#3ecf8e44] text-[#3ecf8e]';
+  const idlePill = 'bg-[#1a1a24] text-[#555] hover:text-[#888]';
+
   return (
-    <div className="flex gap-2">
-      <Select value={filterType} onValueChange={onTypeChange}>
-        <SelectTrigger className="flex-1">
-          <SelectValue placeholder="All types" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All types</SelectItem>
-          <SelectItem value="expense">Expenses</SelectItem>
-          <SelectItem value="income">Income</SelectItem>
-        </SelectContent>
-      </Select>
-      <Select value={filterCategory} onValueChange={onCategoryChange}>
-        <SelectTrigger className="flex-1">
-          <SelectValue placeholder="All categories" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All categories</SelectItem>
-          {categories.map(c => (
-            <SelectItem key={c.id} value={String(c.id)}>
-              {c.icon} {c.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+    <div className="flex flex-col gap-2">
+      {/* Type pills */}
+      <div className="flex gap-2">
+        {(['all', 'expense', 'income'] as const).map(type => (
+          <button
+            key={type}
+            onClick={() => onTypeChange(type)}
+            className={`px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide transition-colors ${
+              filterType === type ? activePill : idlePill
+            }`}
+          >
+            {type === 'all' ? 'All' : type === 'expense' ? 'Expenses' : 'Income'}
+          </button>
+        ))}
+      </div>
+      {/* Category pills */}
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <button
+          onClick={() => onCategoryChange('all')}
+          className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+            filterCategory === 'all' ? activePill : idlePill
+          }`}
+        >
+          All
+        </button>
+        {categories.map(c => {
+          const isActive = filterCategory === String(c.id);
+          return (
+            <button
+              key={c.id}
+              onClick={() => onCategoryChange(String(c.id))}
+              className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-colors"
+              style={isActive
+                ? { backgroundColor: c.color + '33', border: `1px solid ${c.color}66`, color: c.color }
+                : { backgroundColor: '#1a1a24', color: '#555' }
+              }
+            >
+              {c.name}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
