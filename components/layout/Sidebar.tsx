@@ -1,11 +1,12 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, ArrowLeftRight, PiggyBank, Settings } from 'lucide-react';
+import { LayoutDashboard, ArrowLeftRight, PiggyBank, Settings, BarChart2 } from 'lucide-react';
 
 const NAV_ITEMS = [
   { href: '/dashboard',    label: 'ראשי',    Icon: LayoutDashboard },
   { href: '/transactions', label: 'תנועות',  Icon: ArrowLeftRight },
+  { href: '/analytics',   label: 'ניתוח',   Icon: BarChart2 },
   { href: '/budgets',      label: 'תקציב',   Icon: PiggyBank },
   { href: '/settings',     label: 'הגדרות',  Icon: Settings },
 ];
