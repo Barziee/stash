@@ -6,10 +6,13 @@ import { TransactionList } from '@/components/transactions/TransactionList';
 import { TransactionFilters } from '@/components/transactions/TransactionFilters';
 import { AddExpenseModal } from '@/components/shared/AddExpenseModal';
 import { QuickAdd } from '@/components/dashboard/QuickAdd';
+import { RecurringManager } from '@/components/settings/RecurringManager';
+import { CsvImport } from '@/components/settings/CsvImport';
 import { seedDefaultCategories } from '@/lib/db/database';
 import { exportToExcel, exportToPdf } from '@/lib/export/exportTransactions';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, ChevronLeft, FileSpreadsheet, FileText, Search, X } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { ChevronRight, ChevronLeft, FileSpreadsheet, FileText, Search, X, ChevronDown } from 'lucide-react';
 import { filterTransactions } from '@/lib/transactions/filter';
 
 function formatMonth(d: Date) { return d.toISOString().slice(0, 7); }
@@ -23,6 +26,8 @@ export default function TransactionsPage() {
   const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [search, setSearch] = useState('');
+  const [showRecurring, setShowRecurring] = useState(false);
+  const [showImport, setShowImport] = useState(false);
   const all = useTransactions(month);
   const categories = useCategories();
 
@@ -110,6 +115,34 @@ export default function TransactionsPage() {
       <div className="flex justify-center pb-2">
         <AddExpenseModal />
       </div>
+
+      {/* Recurring transactions — collapsible */}
+      <Card>
+        <button
+          onClick={() => setShowRecurring(!showRecurring)}
+          className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-foreground"
+        >
+          עסקאות קבועות
+          <ChevronDown size={16} className={`text-muted-foreground transition-transform ${showRecurring ? 'rotate-180' : ''}`} />
+        </button>
+        {showRecurring && (
+          <CardContent className="pt-0 pb-4"><RecurringManager /></CardContent>
+        )}
+      </Card>
+
+      {/* CSV Import — collapsible */}
+      <Card>
+        <button
+          onClick={() => setShowImport(!showImport)}
+          className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-foreground"
+        >
+          יבוא מ-CSV
+          <ChevronDown size={16} className={`text-muted-foreground transition-transform ${showImport ? 'rotate-180' : ''}`} />
+        </button>
+        {showImport && (
+          <CardContent className="pt-0 pb-4"><CsvImport /></CardContent>
+        )}
+      </Card>
     </div>
   );
 }

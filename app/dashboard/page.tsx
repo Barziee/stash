@@ -3,11 +3,13 @@ import { useState, useEffect, useMemo } from 'react';
 import { MonthStrip } from '@/components/dashboard/MonthStrip';
 import { SpendingChart } from '@/components/dashboard/SpendingChart';
 import { SpendingForecast } from '@/components/dashboard/SpendingForecast';
+import { SavingsGoalManager } from '@/components/settings/SavingsGoalManager';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useCategories } from '@/hooks/useCategories';
 import { usePrivacyMode } from '@/hooks/usePrivacyMode';
 import { getSettings, processRecurringTransactions } from '@/lib/db/queries';
 import { seedDefaultCategories } from '@/lib/db/database';
+import { Card, CardContent } from '@/components/ui/card';
 
 function formatMonth(date: Date): string {
   return date.toISOString().slice(0, 7);
@@ -90,7 +92,7 @@ export default function DashboardPage() {
               : 'bg-card text-muted-foreground hover:text-foreground'
           }`}
         >
-          👁 {hidden ? 'הצג' : 'הסתר'}
+          {hidden ? 'הצג' : 'הסתר'}
         </button>
       </div>
 
@@ -173,6 +175,11 @@ export default function DashboardPage() {
 
       {/* Pie chart */}
       <SpendingChart transactions={transactions} categories={categories} />
+
+      {/* Savings goals */}
+      <Card>
+        <CardContent className="pt-4"><SavingsGoalManager /></CardContent>
+      </Card>
 
     </div>
   );
