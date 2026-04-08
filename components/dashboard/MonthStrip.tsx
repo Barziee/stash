@@ -1,5 +1,5 @@
 'use client';
-import { useMemo } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '@/lib/db/database';
 
@@ -50,6 +50,12 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
     return `${net >= 0 ? '+' : '-'}₪${val}`;
   }
 
+  const activeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
+  }, [activeMonth]);
+
   return (
     <div>
       <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
@@ -58,6 +64,7 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
           return (
             <button
               key={month}
+              ref={isActive ? activeRef : undefined}
               onClick={() => !isFuture && onMonthChange(month)}
               disabled={isFuture}
               className={`flex-shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs transition-all duration-200 press-scale ${
