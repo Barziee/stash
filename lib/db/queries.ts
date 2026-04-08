@@ -173,3 +173,16 @@ export async function updateSavingsGoal(id: number, changes: Partial<SavingsGoal
 export async function deleteSavingsGoal(id: number): Promise<void> {
   await db.savingsGoals.delete(id);
 }
+
+// ── Reset ───────────────────────────────────────────────────────────────────
+
+export async function resetAllData(): Promise<void> {
+  await db.transactions.clear();
+  await db.budgets.clear();
+  await db.recurringTransactions.clear();
+  await db.savingsGoals.clear();
+  await db.exchangeRates.clear();
+  await db.bankCredentials.clear();
+  await db.settings.clear();
+  await db.categories.clear();
+}
