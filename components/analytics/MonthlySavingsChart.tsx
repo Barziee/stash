@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ReferenceLine, Cell,
@@ -22,6 +23,15 @@ const MONTH_LABELS_HE: Record<number, string> = {
   7: 'יולי', 8: 'אוג׳', 9: 'ספט׳', 10: 'אוק׳', 11: 'נוב׳', 12: 'דצמ׳',
 };
 
+function useCSSColor(varName: string, fallback: string): string {
+  const [color, setColor] = useState(fallback);
+  useEffect(() => {
+    const resolved = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    if (resolved) setColor(resolved);
+  }, [varName]);
+  return color;
+}
+
 export function buildMonthlySavingsData(
   transactions: Transaction[],
   months: string[]
@@ -37,6 +47,13 @@ export function buildMonthlySavingsData(
 }
 
 export function MonthlySavingsChart({ data }: Props) {
+  const incomeColor = useCSSColor('--income', '#34d399');
+  const spendColor = useCSSColor('--spend', '#f87171');
+  const borderColor = useCSSColor('--border', '#1f2140');
+  const mutedColor = useCSSColor('--muted-foreground', '#6b72a8');
+  const cardColor = useCSSColor('--card', '#131425');
+  const fgColor = useCSSColor('--foreground', '#dde0f5');
+
   if (data.length === 0) {
     return (
       <p className="text-center text-muted-foreground py-8 text-sm">אין נתונים להצגה</p>
@@ -46,36 +63,36 @@ export function MonthlySavingsChart({ data }: Props) {
   return (
     <ResponsiveContainer width="100%" height={200}>
       <BarChart data={data} margin={{ top: 8, right: 4, left: -20, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke={borderColor} vertical={false} />
         <XAxis
           dataKey="label"
-          tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }}
+          tick={{ fill: mutedColor, fontSize: 10 }}
           axisLine={false}
           tickLine={false}
         />
         <YAxis
-          tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }}
+          tick={{ fill: mutedColor, fontSize: 10 }}
           axisLine={false}
           tickLine={false}
           tickFormatter={v => `₪${Math.abs(v) >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`}
         />
-        <ReferenceLine y={0} stroke="var(--border)" />
+        <ReferenceLine y={0} stroke={borderColor} />
         <Tooltip
           formatter={(v: number) => [`₪${v.toFixed(0)}`, 'חיסכון']}
           contentStyle={{
-            background: 'var(--card)',
-            border: '1px solid var(--border)',
+            background: cardColor,
+            border: `1px solid ${borderColor}`,
             borderRadius: '8px',
-            color: 'var(--foreground)',
+            color: fgColor,
             fontSize: '12px',
           }}
-          labelStyle={{ color: 'var(--muted-foreground)' }}
+          labelStyle={{ color: mutedColor }}
         />
         <Bar dataKey="savings" radius={[4, 4, 0, 0]}>
           {data.map((entry, i) => (
             <Cell
               key={i}
-              fill={entry.savings >= 0 ? 'var(--income)' : 'var(--spend)'}
+              fill={entry.savings >= 0 ? incomeColor : spendColor}
             />
           ))}
         </Bar>

@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Cell,
@@ -37,7 +38,23 @@ interface Props {
   data: DayOfWeekData[];
 }
 
+function useCSSColor(varName: string, fallback: string): string {
+  const [color, setColor] = useState(fallback);
+  useEffect(() => {
+    const resolved = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    if (resolved) setColor(resolved);
+  }, [varName]);
+  return color;
+}
+
 export function DayOfWeekChart({ data }: Props) {
+  const primaryColor = useCSSColor('--primary', '#8b5cf6');
+  const warnColor = useCSSColor('--warn', '#fbbf24');
+  const borderColor = useCSSColor('--border', '#1f2140');
+  const mutedColor = useCSSColor('--muted-foreground', '#6b72a8');
+  const cardColor = useCSSColor('--card', '#131425');
+  const fgColor = useCSSColor('--foreground', '#dde0f5');
+
   if (data.every(d => d.avg === 0)) {
     return (
       <p className="text-center text-muted-foreground py-8 text-sm">אין נתונים להצגה</p>
@@ -49,15 +66,15 @@ export function DayOfWeekChart({ data }: Props) {
   return (
     <ResponsiveContainer width="100%" height={180}>
       <BarChart data={data} margin={{ top: 8, right: 4, left: -20, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke={borderColor} vertical={false} />
         <XAxis
           dataKey="day"
-          tick={{ fill: 'var(--muted-foreground)', fontSize: 9 }}
+          tick={{ fill: mutedColor, fontSize: 9 }}
           axisLine={false}
           tickLine={false}
         />
         <YAxis
-          tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }}
+          tick={{ fill: mutedColor, fontSize: 10 }}
           axisLine={false}
           tickLine={false}
           tickFormatter={v => `₪${v}`}
@@ -65,19 +82,19 @@ export function DayOfWeekChart({ data }: Props) {
         <Tooltip
           formatter={(v: number) => [`₪${v}`, 'ממוצע הוצאה']}
           contentStyle={{
-            background: 'var(--card)',
-            border: '1px solid var(--border)',
+            background: cardColor,
+            border: `1px solid ${borderColor}`,
             borderRadius: '8px',
-            color: 'var(--foreground)',
+            color: fgColor,
             fontSize: '12px',
           }}
-          labelStyle={{ color: 'var(--muted-foreground)' }}
+          labelStyle={{ color: mutedColor }}
         />
         <Bar dataKey="avg" radius={[4, 4, 0, 0]}>
           {data.map((entry, i) => (
             <Cell
               key={i}
-              fill={entry.avg === maxVal && maxVal > 0 ? 'var(--warn)' : 'var(--primary)'}
+              fill={entry.avg === maxVal && maxVal > 0 ? warnColor : primaryColor}
             />
           ))}
         </Bar>
