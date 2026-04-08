@@ -58,7 +58,7 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
 
   return (
     <div>
-      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}>
         {monthData.map(({ month, label, net, isFuture, hasData }) => {
           const isActive = month === activeMonth;
           return (
@@ -67,7 +67,7 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
               ref={isActive ? activeRef : undefined}
               onClick={() => !isFuture && onMonthChange(month)}
               disabled={isFuture}
-              className={`flex-shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs transition-all duration-200 press-scale ${
+              className={`flex-shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs transition-all duration-200 ${
                 isActive
                   ? 'bg-card border border-primary/20 text-primary'
                   : isFuture
