@@ -1,17 +1,15 @@
 'use client';
-import { usePathname } from 'next/navigation';
 import { BottomNav } from './BottomNav';
 import { Sidebar } from './Sidebar';
+import { PageTransition } from './PageTransition';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
   return (
     <div className="flex min-h-screen">
       <Sidebar />
       <main className="flex-1 pb-16 md:pb-0 overflow-y-auto">
-        <div key={pathname} className="w-full max-w-xl mx-auto px-4 py-4 animate-fade-in-up">
-          {children}
+        <div className="w-full max-w-xl mx-auto px-4 py-4">
+          <PageTransition>{children}</PageTransition>
         </div>
       </main>
       <BottomNav />

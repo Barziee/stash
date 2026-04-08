@@ -112,6 +112,9 @@ export default function DashboardPage() {
         )}
       </div>
 
+      {/* Pie chart — right under the hero number */}
+      <SpendingChart transactions={transactions} categories={categories} />
+
       {/* Stat chips */}
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-card rounded-xl p-3 text-center card-hover animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
@@ -172,9 +175,6 @@ export default function DashboardPage() {
         salary={salary}
         isCurrentMonth={isCurrentMonth}
       />
-
-      {/* Pie chart */}
-      <SpendingChart transactions={transactions} categories={categories} />
 
       {/* Savings goals */}
       <Card>
