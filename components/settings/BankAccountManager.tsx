@@ -46,7 +46,7 @@ export function BankAccountManager() {
       ))}
       <div className="flex flex-col gap-2 mt-2 border rounded-md p-3">
         <Label>בנק</Label>
-        <Select value={bank} onValueChange={setBank}>
+        <Select value={bank} onValueChange={v => setBank(v ?? '')}>
           <SelectTrigger><SelectValue placeholder="בחר בנק" /></SelectTrigger>
           <SelectContent>
             {SUPPORTED_BANKS.map(b => (

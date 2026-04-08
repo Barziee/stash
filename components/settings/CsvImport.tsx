@@ -8,6 +8,7 @@ import { addTransaction } from '@/lib/db/queries';
 import { useCategories } from '@/hooks/useCategories';
 import { useExchangeRate } from '@/hooks/useExchangeRate';
 import { convertToNIS } from '@/lib/currency/exchange';
+import { Upload } from 'lucide-react';
 import type { Currency } from '@/types';
 
 const FIELD_LABELS: Record<string, string> = {
@@ -72,7 +73,21 @@ export function CsvImport() {
   return (
     <div className="flex flex-col gap-3">
       <h3 className="font-semibold text-sm">יבוא מ-CSV</h3>
-      <input type="file" accept=".csv" onChange={handleFile} className="text-sm" />
+      <input
+        type="file"
+        accept=".csv"
+        onChange={handleFile}
+        className="hidden"
+        id="csv-file-input"
+      />
+      <Button
+        variant="outline"
+        className="w-full gap-2"
+        onClick={() => document.getElementById('csv-file-input')?.click()}
+      >
+        <Upload size={14} />
+        בחר קובץ CSV
+      </Button>
       {headers.length > 0 && (
         <>
           <p className="text-xs text-muted-foreground">מיפוי עמודות CSV:</p>
@@ -89,7 +104,7 @@ export function CsvImport() {
           ))}
           <div>
             <Label className="text-xs">קטגוריה ברירת מחדל</Label>
-            <Select value={categoryId} onValueChange={setCategoryId}>
+            <Select value={categoryId} onValueChange={v => setCategoryId(v ?? '')}>
               <SelectTrigger><SelectValue placeholder="בחר קטגוריה" /></SelectTrigger>
               <SelectContent>
                 {categories.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.icon} {c.name}</SelectItem>)}

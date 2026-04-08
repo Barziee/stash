@@ -9,12 +9,23 @@ interface Props {
 export function TransactionList({ transactions, categories }: Props) {
   const catMap = Object.fromEntries(categories.map(c => [c.id!, c]));
   if (transactions.length === 0) {
-    return <p className="text-center text-muted-foreground py-8">No transactions</p>;
+    return (
+      <div className="flex flex-col items-center gap-2 py-12 text-muted-foreground/40 animate-fade-in">
+        <span className="text-4xl">🪹</span>
+        <p className="text-sm">אין עסקאות</p>
+      </div>
+    );
   }
   return (
     <div>
-      {transactions.map(t => (
-        <TransactionItem key={t.id} transaction={t} category={catMap[t.categoryId]} />
+      {transactions.map((t, i) => (
+        <div
+          key={t.id}
+          className="animate-fade-in-up"
+          style={{ animationDelay: `${Math.min(i * 0.03, 0.3)}s` }}
+        >
+          <TransactionItem transaction={t} category={catMap[t.categoryId]} />
+        </div>
       ))}
     </div>
   );

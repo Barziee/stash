@@ -110,23 +110,50 @@ export async function processRecurringTransactions(): Promise<void> {
 
   const recurrings = await db.recurringTransactions.toArray();
   for (const r of recurrings) {
-    if (r.lastAddedMonth === currentMonth) continue; // already added this month
-    if (dayOfMonth < r.dayOfMonth) continue;         // not due yet
+    if (r.lastAddedMonth === currentMonth) continue;
+    if (dayOfMonth < r.dayOfMonth) continue;
 
-    await db.transactions.add({
-      amount: r.amount,
-      currency: 'NIS',
-      originalAmount: r.amount,
-      originalCurrency: 'NIS',
-      categoryId: r.categoryId,
-      date: `${currentMonth}-${String(r.dayOfMonth).padStart(2, '0')}`,
-      notes: r.notes,
-      type: r.type,
-      source: 'manual',
+    // Use a transaction to prevent race conditions (React Strict Mode double-fire)
+    await db.transaction('rw', [db.recurringTransactions, db.transactions], async () => {
+      // Re-check inside transaction to prevent duplicate adds
+      const fresh = await db.recurringTransactions.get(r.id!);
+      if (!fresh || fresh.lastAddedMonth === currentMonth) return;
+
+      await db.transactions.add({
+        amount: r.amount,
+        currency: 'NIS',
+        originalAmount: r.amount,
+        originalCurrency: 'NIS',
+        categoryId: r.categoryId,
+        date: `${currentMonth}-${String(r.dayOfMonth).padStart(2, '0')}`,
+        notes: r.notes,
+        type: r.type,
+        source: 'manual',
+      });
+
+      await db.recurringTransactions.update(r.id!, { lastAddedMonth: currentMonth });
     });
-
-    await db.recurringTransactions.update(r.id!, { lastAddedMonth: currentMonth });
   }
+}
+
+// ── Analytics ────────────────────────────────────────────────────────────────
+
+/**
+ * Returns transactions for a range of months (e.g. last N months).
+ * months: array of YYYY-MM strings
+ */
+export async function getTransactionsForMonths(months: string[]): Promise<Transaction[]> {
+  const results = await Promise.all(
+    months.map(m => db.transactions.where('date').startsWith(m).toArray())
+  );
+  return results.flat();
+}
+
+/**
+ * Returns all transactions ever recorded.
+ */
+export async function getAllTransactions(): Promise<Transaction[]> {
+  return db.transactions.toArray();
 }
 
 // ── Savings Goals ────────────────────────────────────────────────────────────
@@ -145,4 +172,17 @@ export async function updateSavingsGoal(id: number, changes: Partial<SavingsGoal
 
 export async function deleteSavingsGoal(id: number): Promise<void> {
   await db.savingsGoals.delete(id);
+}
+
+// ── Reset ───────────────────────────────────────────────────────────────────
+
+export async function resetAllData(): Promise<void> {
+  await db.transactions.clear();
+  await db.budgets.clear();
+  await db.recurringTransactions.clear();
+  await db.savingsGoals.clear();
+  await db.exchangeRates.clear();
+  await db.bankCredentials.clear();
+  await db.settings.clear();
+  await db.categories.clear();
 }

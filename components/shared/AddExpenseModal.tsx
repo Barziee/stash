@@ -65,7 +65,7 @@ export function AddExpenseModal() {
           </div>
           <div>
             <Label>קטגוריה</Label>
-            <Select value={categoryId} onValueChange={setCategoryId}>
+            <Select value={categoryId} onValueChange={v => setCategoryId(v ?? '')}>
               <SelectTrigger><SelectValue placeholder="בחר קטגוריה" /></SelectTrigger>
               <SelectContent>
                 {categories.map(c => (

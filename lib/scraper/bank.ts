@@ -27,14 +27,15 @@ export async function runScraper(
   try {
     // Dynamic import — library only works in browser with Chrome
     const { createScraper } = await import('israeli-bank-scrapers');
-    const scraper = createScraper({ companyId: BANK_ID_MAP[bankName], verbose: false });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const scraper = createScraper({ companyId: BANK_ID_MAP[bankName], verbose: false, startDate: new Date(Date.now() - 90 * 86400000) } as any);
     const result = await scraper.scrape({ username, password });
 
     if (!result.success) {
       return { transactions: [], error: result.errorMessage };
     }
 
-    const txns: Omit<Transaction, 'id'>[] = result.accounts
+    const txns: Omit<Transaction, 'id'>[] = (result.accounts ?? [])
       .flatMap(acc => acc.txns)
       .map(t => ({
         amount: Math.abs(t.chargedAmount),

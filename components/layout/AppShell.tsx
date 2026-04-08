@@ -1,5 +1,7 @@
+'use client';
 import { BottomNav } from './BottomNav';
 import { Sidebar } from './Sidebar';
+import { PageTransition } from './PageTransition';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -7,7 +9,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <main className="flex-1 pb-16 md:pb-0 overflow-y-auto">
         <div className="w-full max-w-xl mx-auto px-4 py-4">
-          {children}
+          <PageTransition>{children}</PageTransition>
         </div>
       </main>
       <BottomNav />
