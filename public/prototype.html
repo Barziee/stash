@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Stash — Palette Explorer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0d18;
+    --fg: #dde0f5;
+    --card: #131425;
+    --card2: #1a1c30;
+    --border: #1f2140;
+    --muted: #6b72a8;
+    --primary: #7c6ff7;
+    --grad1: #4c3a99;
+    --grad2: #7c6ff7;
+    --grad3: #9f8cff;
+    --income: #34d399;
+    --spend: #f87171;
+    --chart1: #8b5cf6;
+    --chart2: #34d399;
+    --chart3: #fbbf24;
+    --chart4: #f472b6;
+    --chart5: #38bdf8;
+    --radius: 16px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --page-bg: #1a1a2e;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--page-bg);
+    color: var(--fg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    transition: background 0.4s;
+  }
+
+  .title { color: var(--muted); font-size: 13px; margin-bottom: 16px; text-align: center; transition: color 0.4s; }
+
+  /* ── Palette Switcher ── */
+  .palette-grid {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 600px;
+  }
+  .palette-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 90px;
+  }
+  .palette-btn:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .palette-btn.active { border-color: var(--primary); box-shadow: 0 0 20px rgba(124,111,247,0.3); }
+  .palette-dots {
+    display: flex;
+    gap: 3px;
+  }
+  .palette-dots span {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transition: all 0.3s;
+  }
+  .palette-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--fg);
+    letter-spacing: 0.05em;
+    transition: color 0.4s;
+  }
+
+  /* ── Phone Frame ── */
+  .phone {
+    width: 375px;
+    min-height: 812px;
+    background: var(--bg);
+    border-radius: 40px;
+    border: 3px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+    transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+  }
+  .phone-content {
+    padding: 60px 20px 100px;
+    overflow-y: auto;
+    height: 812px;
+  }
+
+  .status-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 28px 0;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 10;
+    transition: color 0.4s;
+  }
+
+  /* ── Bottom Nav ── */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 16px;
+    border-radius: 0 0 37px 37px;
+    transition: background 0.4s, border-color 0.4s;
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-size: 10px; color: var(--muted); cursor: pointer; transition: color 0.4s;
+  }
+  .nav-item.active { color: var(--primary); }
+  .nav-item svg { width: 22px; height: 22px; }
+  .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--primary); opacity: 0; transition: all 0.4s; }
+  .nav-item.active .nav-dot { opacity: 1; }
+
+  /* ═══════════ VARIANT B — Gradient Card ═══════════ */
+  .vb-greeting {
+    font-size: 22px; font-weight: 800; margin-bottom: 20px; color: var(--fg);
+    transition: color 0.4s;
+  }
+  .vb-greeting span { color: var(--primary); transition: color 0.4s; }
+
+  .vb-hero-card {
+    background: linear-gradient(135deg, var(--grad1) 0%, var(--grad2) 50%, var(--grad3) 100%);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .vb-hero-card::after {
+    content: '';
+    position: absolute;
+    top: -30%; right: -20%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+  }
+  .vb-hero-label { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+  .vb-hero-amount { font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+  .vb-hero-row { display: flex; gap: 24px; }
+  .vb-hero-stat { display: flex; align-items: center; gap: 6px; }
+  .vb-hero-stat .arrow {
+    width: 24px; height: 24px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 12px;
+  }
+  .vb-hero-stat .arrow.down { background: rgba(52,211,153,0.2); color: var(--income); }
+  .vb-hero-stat .arrow.up { background: rgba(248,113,113,0.2); color: var(--spend); }
+  .vb-hero-stat .stat-info { font-size: 11px; color: rgba(255,255,255,0.6); }
+  .vb-hero-stat .stat-val { font-size: 14px; font-weight: 700; color: #fff; }
+
+  .vb-mini-chart { display: flex; align-items: flex-end; gap: 4px; height: 50px; margin-top: 16px; }
+  .vb-mini-bar { flex: 1; border-radius: 4px 4px 0 0; transition: height 0.5s ease-out, background 0.4s; }
+
+  /* Donut section */
+  .vb-donut-section {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    transition: background 0.4s, border-color 0.4s;
+  }
+  .vb-donut-section h3 {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--muted); margin-bottom: 16px; transition: color 0.4s;
+  }
+  .vb-donut-row { display: flex; align-items: center; gap: 20px; }
+  .vb-donut-legends { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .vb-legend-row { display: flex; justify-content: space-between; align-items: center; }
+  .vb-legend-left { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--fg); transition: color 0.4s; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; transition: background 0.4s; }
+
+  /* Transactions */
+  .txn-section { margin-top: 20px; }
+  .txn-section-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;
+  }
+  .txn-section-header h3 { font-size: 14px; font-weight: 700; color: var(--fg); transition: color 0.4s; }
+  .txn-section-header a { font-size: 12px; color: var(--primary); text-decoration: none; transition: color 0.4s; }
+  .txn-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+    transition: border-color 0.4s;
+  }
+  .txn-item:last-child { border-bottom: none; }
+  .txn-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: var(--card2);
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    transition: background 0.4s;
+  }
+  .txn-details { flex: 1; }
+  .txn-name { font-size: 13px; font-weight: 600; color: var(--fg); transition: color 0.4s; }
+  .txn-date { font-size: 10px; color: var(--muted); margin-top: 2px; transition: color 0.4s; }
+  .txn-amount { font-size: 14px; font-weight: 700; transition: color 0.4s; }
+  .txn-amount.expense { color: var(--spend); }
+  .txn-amount.income { color: var(--income); }
+
+  /* Stat chips row */
+  .stat-chips {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px; margin-bottom: 16px;
+  }
+  .stat-chip {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 12px 10px;
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: all 0.4s;
+  }
+  .stat-chip:hover { transform: translateY(-2px); }
+  .stat-chip .chip-label {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); margin-bottom: 4px; transition: color 0.4s;
+  }
+  .stat-chip .chip-value {
+    font-size: 14px; font-weight: 700; color: var(--fg); transition: color 0.4s;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .anim { animation: fadeUp 0.4s ease-out both; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.1s; }
+  .d3 { animation-delay: 0.15s; }
+  .d4 { animation-delay: 0.2s; }
+  .d5 { animation-delay: 0.25s; }
+
+  /* SVG transitions */
+  svg circle { transition: stroke 0.4s; }
+  svg text { transition: fill 0.4s; }
+</style>
+</head>
+<body>
+
+<p class="title">Stash — Palette Explorer (Variant B)</p>
+
+<div class="palette-grid" id="palette-grid"></div>
+
+<!-- ========== PHONE FRAME ========== -->
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41</span>
+    <span style="font-size:12px">●●●● WiFi 🔋</span>
+  </div>
+
+  <div class="phone-content" id="phone-content">
+
+    <div class="vb-greeting anim">שלום, <span>בר</span> 👋</div>
+
+    <!-- Hero gradient card -->
+    <div class="vb-hero-card anim d1">
+      <div class="vb-hero-label">יתרת החודש</div>
+      <div class="vb-hero-amount">₪8,450</div>
+      <div class="vb-hero-row">
+        <div class="vb-hero-stat">
+          <div class="arrow down">↓</div>
+          <div>
+            <div class="stat-info">הכנסות</div>
+            <div class="stat-val">₪15,000</div>
+          </div>
+        </div>
+        <div class="vb-hero-stat">
+          <div class="arrow up">↑</div>
+          <div>
+            <div class="stat-info">הוצאות</div>
+            <div class="stat-val">₪6,550</div>
+          </div>
+        </div>
+      </div>
+      <div class="vb-mini-chart" id="mini-chart">
+        <div class="vb-mini-bar" style="height:40%"></div>
+        <div class="vb-mini-bar" style="height:55%"></div>
+        <div class="vb-mini-bar" style="height:35%"></div>
+        <div class="vb-mini-bar" style="height:70%"></div>
+        <div class="vb-mini-bar" style="height:85%"></div>
+        <div class="vb-mini-bar" style="height:50%"></div>
+        <div class="vb-mini-bar" style="height:100%"></div>
+      </div>
+    </div>
+
+    <!-- Stat chips -->
+    <div class="stat-chips anim d2">
+      <div class="stat-chip">
+        <div class="chip-label">ממוצע יומי</div>
+        <div class="chip-value">₪218</div>
+      </div>
+      <div class="stat-chip">
+        <div class="chip-label">ימים נותרים</div>
+        <div class="chip-value">22</div>
+      </div>
+      <div class="stat-chip">
+        <div class="chip-label">יתרה</div>
+        <div class="chip-value" id="balance-chip" style="color:var(--income)">₪8,450</div>
+      </div>
+    </div>
+
+    <!-- Donut + Legend side by side -->
+    <div class="vb-donut-section anim d3">
+      <h3>התפלגות הוצאות</h3>
+      <div class="vb-donut-row">
+        <svg viewBox="0 0 120 120" width="120" height="120">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--card2)" stroke-width="18"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--chart1)" stroke-width="18"
+            stroke-dasharray="105.6 301.6" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--chart2)" stroke-width="18"
+            stroke-dasharray="75.4 301.6" stroke-dashoffset="-105.6" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--chart3)" stroke-width="18"
+            stroke-dasharray="54.3 301.6" stroke-dashoffset="-181.0" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--chart4)" stroke-width="18"
+            stroke-dasharray="36.2 301.6" stroke-dashoffset="-235.3" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--chart5)" stroke-width="18"
+            stroke-dasharray="30.2 301.6" stroke-dashoffset="-271.4" transform="rotate(-90 60 60)"/>
+        </svg>
+        <div class="vb-donut-legends">
+          <div class="vb-legend-row">
+            <div class="vb-legend-left"><div class="legend-dot" style="background:var(--chart1)"></div>אוכל</div>
+            <span style="font-size:12px;color:var(--muted)">35%</span>
+          </div>
+          <div class="vb-legend-row">
+            <div class="vb-legend-left"><div class="legend-dot" style="background:var(--chart2)"></div>קניות</div>
+            <span style="font-size:12px;color:var(--muted)">25%</span>
+          </div>
+          <div class="vb-legend-row">
+            <div class="vb-legend-left"><div class="legend-dot" style="background:var(--chart3)"></div>תחבורה</div>
+            <span style="font-size:12px;color:var(--muted)">18%</span>
+          </div>
+          <div class="vb-legend-row">
+            <div class="vb-legend-left"><div class="legend-dot" style="background:var(--chart4)"></div>בילויים</div>
+            <span style="font-size:12px;color:var(--muted)">12%</span>
+          </div>
+          <div class="vb-legend-row">
+            <div class="vb-legend-left"><div class="legend-dot" style="background:var(--chart5)"></div>חשבונות</div>
+            <span style="font-size:12px;color:var(--muted)">10%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transactions -->
+    <div class="txn-section anim d4">
+      <div class="txn-section-header">
+        <h3>עסקאות אחרונות</h3>
+        <a href="#">הצג הכל</a>
+      </div>
+      <div class="txn-item">
+        <div class="txn-icon">🍕</div>
+        <div class="txn-details">
+          <div class="txn-name">דומינוס פיצה</div>
+          <div class="txn-date">היום, 14:30</div>
+        </div>
+        <div class="txn-amount expense">-₪89</div>
+      </div>
+      <div class="txn-item">
+        <div class="txn-icon">💰</div>
+        <div class="txn-details">
+          <div class="txn-name">משכורת</div>
+          <div class="txn-date">01/04/2026</div>
+        </div>
+        <div class="txn-amount income">+₪15,000</div>
+      </div>
+      <div class="txn-item">
+        <div class="txn-icon">🛍️</div>
+        <div class="txn-details">
+          <div class="txn-name">זארה</div>
+          <div class="txn-date">31/03/2026</div>
+        </div>
+        <div class="txn-amount expense">-₪340</div>
+      </div>
+      <div class="txn-item">
+        <div class="txn-icon">🚗</div>
+        <div class="txn-details">
+          <div class="txn-name">סונול דלק</div>
+          <div class="txn-date">30/03/2026</div>
+        </div>
+        <div class="txn-amount expense">-₪250</div>
+      </div>
+      <div class="txn-item">
+        <div class="txn-icon">🎬</div>
+        <div class="txn-details">
+          <div class="txn-name">יס פלאנט</div>
+          <div class="txn-date">28/03/2026</div>
+        </div>
+        <div class="txn-amount expense">-₪120</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      <div class="nav-dot"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const palettes = {
+  'Midnight Indigo': {
+    bg: '#0c0d18', fg: '#dde0f5', card: '#131425', card2: '#1a1c30',
+    border: '#1f2140', muted: '#6b72a8', primary: '#7c6ff7',
+    grad1: '#4c3a99', grad2: '#7c6ff7', grad3: '#9f8cff',
+    income: '#34d399', spend: '#f87171',
+    chart1: '#8b5cf6', chart2: '#34d399', chart3: '#fbbf24', chart4: '#f472b6', chart5: '#38bdf8',
+    pageBg: '#1a1a2e', barAlpha: 'rgba(255,255,255,',
+    dots: ['#7c6ff7', '#4c3a99', '#9f8cff', '#131425']
+  },
+  'Ocean Depths': {
+    bg: '#0a1520', fg: '#d4e5f7', card: '#0f1f30', card2: '#152a3d',
+    border: '#1a3550', muted: '#5a8aab', primary: '#22d3ee',
+    grad1: '#0e4f6e', grad2: '#0891b2', grad3: '#22d3ee',
+    income: '#34d399', spend: '#fb7185',
+    chart1: '#06b6d4', chart2: '#34d399', chart3: '#fbbf24', chart4: '#c084fc', chart5: '#f97316',
+    pageBg: '#0d1a28', barAlpha: 'rgba(255,255,255,',
+    dots: ['#22d3ee', '#0e4f6e', '#06b6d4', '#0f1f30']
+  },
+  'Ember Night': {
+    bg: '#18100c', fg: '#f5e0d4', card: '#251812', card2: '#30201a',
+    border: '#3d2a20', muted: '#a87a5a', primary: '#f97316',
+    grad1: '#9a3412', grad2: '#ea580c', grad3: '#fb923c',
+    income: '#4ade80', spend: '#f87171',
+    chart1: '#f97316', chart2: '#4ade80', chart3: '#facc15', chart4: '#fb7185', chart5: '#38bdf8',
+    pageBg: '#1c140e', barAlpha: 'rgba(255,255,255,',
+    dots: ['#f97316', '#9a3412', '#fb923c', '#251812']
+  },
+  'Arctic Mint': {
+    bg: '#0c1816', fg: '#d4f5ef', card: '#0f2520', card2: '#153530',
+    border: '#1a4540', muted: '#5aab9a', primary: '#34d399',
+    grad1: '#065f46', grad2: '#059669', grad3: '#34d399',
+    income: '#34d399', spend: '#f87171',
+    chart1: '#10b981', chart2: '#38bdf8', chart3: '#fbbf24', chart4: '#f472b6', chart5: '#a78bfa',
+    pageBg: '#0e1e1a', barAlpha: 'rgba(255,255,255,',
+    dots: ['#34d399', '#065f46', '#059669', '#0f2520']
+  },
+  'Rose Noir': {
+    bg: '#180c14', fg: '#f5d4e8', card: '#25121e', card2: '#351a2a',
+    border: '#45203a', muted: '#ab5a8a', primary: '#f472b6',
+    grad1: '#9d174d', grad2: '#db2777', grad3: '#f472b6',
+    income: '#34d399', spend: '#fb7185',
+    chart1: '#ec4899', chart2: '#34d399', chart3: '#fbbf24', chart4: '#a78bfa', chart5: '#38bdf8',
+    pageBg: '#1c0e18', barAlpha: 'rgba(255,255,255,',
+    dots: ['#f472b6', '#9d174d', '#db2777', '#25121e']
+  },
+  'Cosmic Purple': {
+    bg: '#110b1e', fg: '#e8ddf5', card: '#1a1230', card2: '#231a3d',
+    border: '#2e2050', muted: '#8a6bab', primary: '#a78bfa',
+    grad1: '#5b21b6', grad2: '#7c3aed', grad3: '#a78bfa',
+    income: '#34d399', spend: '#f87171',
+    chart1: '#8b5cf6', chart2: '#34d399', chart3: '#fbbf24', chart4: '#f472b6', chart5: '#22d3ee',
+    pageBg: '#15102a', barAlpha: 'rgba(255,255,255,',
+    dots: ['#a78bfa', '#5b21b6', '#7c3aed', '#1a1230']
+  },
+  'Solar Gold': {
+    bg: '#161208', fg: '#f5edd4', card: '#252010', card2: '#352c18',
+    border: '#453a20', muted: '#ab9a5a', primary: '#eab308',
+    grad1: '#854d0e', grad2: '#ca8a04', grad3: '#eab308',
+    income: '#4ade80', spend: '#f87171',
+    chart1: '#eab308', chart2: '#4ade80', chart3: '#f97316', chart4: '#f472b6', chart5: '#38bdf8',
+    pageBg: '#1a1610', barAlpha: 'rgba(255,255,255,',
+    dots: ['#eab308', '#854d0e', '#ca8a04', '#252010']
+  },
+  'Frost Light': {
+    bg: '#f5f7fa', fg: '#1a1c2e', card: '#ffffff', card2: '#eef0f5',
+    border: '#dde0eb', muted: '#6b7280', primary: '#6366f1',
+    grad1: '#4338ca', grad2: '#6366f1', grad3: '#818cf8',
+    income: '#10b981', spend: '#ef4444',
+    chart1: '#6366f1', chart2: '#10b981', chart3: '#f59e0b', chart4: '#ec4899', chart5: '#06b6d4',
+    pageBg: '#e8eaf0', barAlpha: 'rgba(255,255,255,',
+    dots: ['#6366f1', '#4338ca', '#818cf8', '#ffffff']
+  }
+};
+
+// Build palette buttons
+const grid = document.getElementById('palette-grid');
+Object.entries(palettes).forEach(([name, p], i) => {
+  const btn = document.createElement('button');
+  btn.className = 'palette-btn' + (i === 0 ? ' active' : '');
+  btn.onclick = () => applyPalette(name);
+  btn.innerHTML = `
+    <div class="palette-dots">
+      ${p.dots.map(c => `<span style="background:${c}"></span>`).join('')}
+    </div>
+    <div class="palette-name">${name}</div>
+  `;
+  grid.appendChild(btn);
+});
+
+function applyPalette(name) {
+  const p = palettes[name];
+  const r = document.documentElement;
+
+  r.style.setProperty('--bg', p.bg);
+  r.style.setProperty('--fg', p.fg);
+  r.style.setProperty('--card', p.card);
+  r.style.setProperty('--card2', p.card2);
+  r.style.setProperty('--border', p.border);
+  r.style.setProperty('--muted', p.muted);
+  r.style.setProperty('--primary', p.primary);
+  r.style.setProperty('--grad1', p.grad1);
+  r.style.setProperty('--grad2', p.grad2);
+  r.style.setProperty('--grad3', p.grad3);
+  r.style.setProperty('--income', p.income);
+  r.style.setProperty('--spend', p.spend);
+  r.style.setProperty('--chart1', p.chart1);
+  r.style.setProperty('--chart2', p.chart2);
+  r.style.setProperty('--chart3', p.chart3);
+  r.style.setProperty('--chart4', p.chart4);
+  r.style.setProperty('--chart5', p.chart5);
+  r.style.setProperty('--page-bg', p.pageBg);
+
+  // Update mini chart bars
+  const bars = document.querySelectorAll('.vb-mini-bar');
+  const alphas = [0.2, 0.25, 0.2, 0.3, 0.15, 0.2, 0.4];
+  bars.forEach((bar, i) => {
+    bar.style.background = p.barAlpha + alphas[i] + ')';
+  });
+
+  // Update active button
+  document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+  event.target.closest('.palette-btn').classList.add('active');
+}
+</script>
+
+</body>
+</html>

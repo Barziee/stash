@@ -19,28 +19,27 @@ export function TransactionItem({ transaction, category }: Props) {
 
   return (
     <>
-      <div className="flex items-center gap-3 py-2.5 border-b border-border last:border-0 group hover:bg-accent/30 rounded-lg px-1 -mx-1 transition-colors duration-150">
-        {/* Category icon circle */}
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-border last:border-0 group hover:bg-accent/30 transition-colors duration-150">
+        {/* Category icon — rounded square like mock */}
         <div
-          className="w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0"
-          style={{ backgroundColor: (category?.color ?? '#383d5c') + '28' }}
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+          style={{ backgroundColor: (category?.color ?? '#383d5c') + '20' }}
         >
           {category?.icon ?? '📦'}
         </div>
 
         {/* Text info */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-foreground">{category?.name ?? 'לא ידוע'}</p>
-          {transaction.notes && (
-            <p className="text-xs text-muted-foreground truncate">{transaction.notes}</p>
-          )}
-          <p className="text-[10px] text-muted-foreground/40">{transaction.date}</p>
+          <p className="text-[13px] font-semibold text-foreground">
+            {transaction.notes || category?.name || 'לא ידוע'}
+          </p>
+          <p className="text-[10px] text-muted-foreground/50 mt-0.5">{transaction.date}</p>
         </div>
 
         {/* Amount + actions */}
         <div className="flex items-center gap-1 flex-shrink-0">
           <span className={`text-sm font-semibold ${amountColor}`}>
-            {sign}₪{transaction.amount.toFixed(2)}
+            {sign}₪{transaction.amount.toLocaleString('he-IL', { maximumFractionDigits: 0 })}
           </span>
           <div className="flex opacity-0 group-hover:opacity-100 transition-opacity">
             <Button

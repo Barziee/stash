@@ -17,7 +17,7 @@ export function TransactionList({ transactions, categories }: Props) {
     );
   }
   return (
-    <div>
+    <div className="bg-card rounded-2xl border border-border overflow-hidden">
       {transactions.map((t, i) => (
         <div
           key={t.id}
