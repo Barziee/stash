@@ -62,7 +62,7 @@ export function MonthlySavingsChart({ data }: Props) {
 
   return (
     <ResponsiveContainer width="100%" height={200}>
-      <BarChart data={data} margin={{ top: 8, right: 4, left: -20, bottom: 0 }}>
+      <BarChart data={data} margin={{ top: 8, right: 8, left: 4, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={borderColor} vertical={false} />
         <XAxis
           dataKey="label"
@@ -71,6 +71,7 @@ export function MonthlySavingsChart({ data }: Props) {
           tickLine={false}
         />
         <YAxis
+          width={50}
           tick={{ fill: mutedColor, fontSize: 10 }}
           axisLine={false}
           tickLine={false}
@@ -83,12 +84,12 @@ export function MonthlySavingsChart({ data }: Props) {
             background: cardColor,
             border: `1px solid ${borderColor}`,
             borderRadius: '8px',
-            color: fgColor,
             fontSize: '12px',
           }}
+          itemStyle={{ color: fgColor }}
           labelStyle={{ color: mutedColor }}
         />
-        <Bar dataKey="savings" radius={[4, 4, 0, 0]}>
+        <Bar dataKey="savings" radius={[4, 4, 0, 0]} animationDuration={800} animationEasing="ease-out">
           {data.map((entry, i) => (
             <Cell
               key={i}

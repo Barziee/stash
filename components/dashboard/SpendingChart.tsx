@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import type { Transaction, Category } from '@/types';
 
@@ -7,7 +8,21 @@ interface Props {
   categories: Category[];
 }
 
+function useCSSColor(varName: string, fallback: string): string {
+  const [color, setColor] = useState(fallback);
+  useEffect(() => {
+    const resolved = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    if (resolved) setColor(resolved);
+  }, [varName]);
+  return color;
+}
+
 export function SpendingChart({ transactions, categories }: Props) {
+  const cardColor = useCSSColor('--card', '#131425');
+  const borderColor = useCSSColor('--border', '#1f2140');
+  const fgColor = useCSSColor('--foreground', '#dde0f5');
+  const mutedColor = useCSSColor('--muted-foreground', '#6b72a8');
+
   const data = categories
     .map(cat => ({
       name: `${cat.icon} ${cat.name}`,
@@ -19,13 +34,22 @@ export function SpendingChart({ transactions, categories }: Props) {
     .filter(d => d.value > 0);
 
   if (data.length === 0) {
-    return <p className="text-center text-[#404042] py-8 text-sm">אין הוצאות החודש</p>;
+    return <p className="text-center text-muted-foreground py-8 text-sm">אין הוצאות החודש</p>;
   }
 
   return (
     <ResponsiveContainer width="100%" height={220}>
       <PieChart>
-        <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80}>
+        <Pie
+          data={data}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={80}
+          animationDuration={800}
+          animationEasing="ease-out"
+        >
           {data.map((entry, i) => (
             <Cell key={i} fill={entry.color} />
           ))}
@@ -33,13 +57,13 @@ export function SpendingChart({ transactions, categories }: Props) {
         <Tooltip
           formatter={(v) => `₪${Number(v).toFixed(2)}`}
           contentStyle={{
-            background: 'var(--card)',
-            border: '1px solid var(--border)',
+            background: cardColor,
+            border: `1px solid ${borderColor}`,
             borderRadius: '8px',
-            color: 'var(--foreground)',
             fontSize: '12px',
           }}
-          labelStyle={{ color: '#666668' }}
+          itemStyle={{ color: fgColor }}
+          labelStyle={{ color: mutedColor }}
         />
       </PieChart>
     </ResponsiveContainer>
