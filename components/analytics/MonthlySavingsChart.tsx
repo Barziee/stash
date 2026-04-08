@@ -78,7 +78,7 @@ export function MonthlySavingsChart({ data }: Props) {
         />
         <ReferenceLine y={0} stroke={borderColor} />
         <Tooltip
-          formatter={(v: number) => [`₪${v.toFixed(0)}`, 'חיסכון']}
+          formatter={(v) => [`₪${Number(v).toFixed(0)}`, 'חיסכון']}
           contentStyle={{
             background: cardColor,
             border: `1px solid ${borderColor}`,

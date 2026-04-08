@@ -31,12 +31,12 @@ export function SpendingChart({ transactions, categories }: Props) {
           ))}
         </Pie>
         <Tooltip
-          formatter={(v: number) => `₪${v.toFixed(2)}`}
+          formatter={(v) => `₪${Number(v).toFixed(2)}`}
           contentStyle={{
-            background: '#191919',
-            border: '1px solid #272729',
+            background: 'var(--card)',
+            border: '1px solid var(--border)',
             borderRadius: '8px',
-            color: '#d1d1d4',
+            color: 'var(--foreground)',
             fontSize: '12px',
           }}
           labelStyle={{ color: '#666668' }}

@@ -4,7 +4,7 @@
 const PBKDF2_ITERATIONS = 100_000;
 const KEY_LENGTH = 256;
 
-async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey> {
+async function deriveKey(password: string, salt: Uint8Array<ArrayBuffer>): Promise<CryptoKey> {
   const enc = new TextEncoder();
   const keyMaterial = await crypto.subtle.importKey(
     'raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']
@@ -18,12 +18,14 @@ async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey>
   );
 }
 
-function toBase64(buf: ArrayBuffer): string {
-  return btoa(String.fromCharCode(...new Uint8Array(buf)));
+function toBase64(buf: ArrayBuffer | Uint8Array): string {
+  const bytes = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
+  return btoa(String.fromCharCode(...bytes));
 }
 
-function fromBase64(str: string): Uint8Array {
-  return new Uint8Array(atob(str).split('').map(c => c.charCodeAt(0)));
+function fromBase64(str: string): Uint8Array<ArrayBuffer> {
+  const arr = new Uint8Array(atob(str).split('').map(c => c.charCodeAt(0)));
+  return new Uint8Array(arr.buffer as ArrayBuffer);
 }
 
 export async function encrypt(

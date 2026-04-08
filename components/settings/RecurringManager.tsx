@@ -65,7 +65,7 @@ export function RecurringManager() {
         <div className="grid grid-cols-2 gap-2">
           <div>
             <Label className="text-xs">קטגוריה</Label>
-            <Select value={categoryId} onValueChange={setCategoryId}>
+            <Select value={categoryId} onValueChange={v => setCategoryId(v ?? '')}>
               <SelectTrigger><SelectValue placeholder="בחר" /></SelectTrigger>
               <SelectContent>
                 {categories.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.icon} {c.name}</SelectItem>)}

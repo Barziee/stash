@@ -104,7 +104,7 @@ export function CsvImport() {
           ))}
           <div>
             <Label className="text-xs">קטגוריה ברירת מחדל</Label>
-            <Select value={categoryId} onValueChange={setCategoryId}>
+            <Select value={categoryId} onValueChange={v => setCategoryId(v ?? '')}>
               <SelectTrigger><SelectValue placeholder="בחר קטגוריה" /></SelectTrigger>
               <SelectContent>
                 {categories.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.icon} {c.name}</SelectItem>)}

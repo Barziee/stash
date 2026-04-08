@@ -80,7 +80,7 @@ export function DayOfWeekChart({ data }: Props) {
           tickFormatter={v => `₪${v}`}
         />
         <Tooltip
-          formatter={(v: number) => [`₪${v}`, 'ממוצע הוצאה']}
+          formatter={(v) => [`₪${v}`, 'ממוצע הוצאה']}
           contentStyle={{
             background: cardColor,
             border: `1px solid ${borderColor}`,
