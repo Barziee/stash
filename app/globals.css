@@ -195,6 +195,15 @@
   animation: fadeInUp 0.4s ease-out both;
 }
 
+.page-enter {
+  animation: fadeInUp 0.3s ease-out both;
+}
+
+.page-exit {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out both;
 }
