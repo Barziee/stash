@@ -196,12 +196,11 @@
 }
 
 .page-enter {
-  animation: fadeInUp 0.3s ease-out both;
+  animation: fadeIn 0.25s ease-out both;
 }
 
 .page-exit {
   opacity: 0;
-  transform: translateY(12px);
 }
 
 .animate-fade-in {
