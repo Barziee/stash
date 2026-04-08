@@ -117,30 +117,30 @@ export default function TransactionsPage() {
       </div>
 
       {/* Recurring transactions — collapsible */}
-      <Card>
+      <Card className="card-hover">
         <button
           onClick={() => setShowRecurring(!showRecurring)}
-          className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-foreground"
+          className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-foreground press-scale"
         >
           עסקאות קבועות
-          <ChevronDown size={16} className={`text-muted-foreground transition-transform ${showRecurring ? 'rotate-180' : ''}`} />
+          <ChevronDown size={16} className={`text-muted-foreground transition-transform duration-300 ${showRecurring ? 'rotate-180' : ''}`} />
         </button>
         {showRecurring && (
-          <CardContent className="pt-0 pb-4"><RecurringManager /></CardContent>
+          <CardContent className="pt-0 pb-4 animate-slide-down"><RecurringManager /></CardContent>
         )}
       </Card>
 
       {/* CSV Import — collapsible */}
-      <Card>
+      <Card className="card-hover">
         <button
           onClick={() => setShowImport(!showImport)}
-          className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-foreground"
+          className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-foreground press-scale"
         >
           יבוא מ-CSV
-          <ChevronDown size={16} className={`text-muted-foreground transition-transform ${showImport ? 'rotate-180' : ''}`} />
+          <ChevronDown size={16} className={`text-muted-foreground transition-transform duration-300 ${showImport ? 'rotate-180' : ''}`} />
         </button>
         {showImport && (
-          <CardContent className="pt-0 pb-4"><CsvImport /></CardContent>
+          <CardContent className="pt-0 pb-4 animate-slide-down"><CsvImport /></CardContent>
         )}
       </Card>
     </div>

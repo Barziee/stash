@@ -55,7 +55,7 @@ export default function AnalyticsPage() {
       <SpendingStreak streak={streak} dailyBudget={dailyBudget} />
 
       {/* Monthly Savings */}
-      <div className="bg-card rounded-2xl p-4">
+      <div className="bg-card rounded-2xl p-4 card-hover animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
         <p className="text-[9px] tracking-[0.2em] text-muted-foreground/50 uppercase mb-3">
           חיסכון חודשי — 6 חודשים אחרונים
         </p>
@@ -63,7 +63,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Day of Week */}
-      <div className="bg-card rounded-2xl p-4">
+      <div className="bg-card rounded-2xl p-4 card-hover animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
         <p className="text-[9px] tracking-[0.2em] text-muted-foreground/50 uppercase mb-1">
           הוצאות לפי יום בשבוע
         </p>
@@ -77,7 +77,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Top Merchants */}
-      <div className="bg-card rounded-2xl p-4">
+      <div className="bg-card rounded-2xl p-4 card-hover animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
         <p className="text-[9px] tracking-[0.2em] text-muted-foreground/50 uppercase mb-3">
           הוצאות חוזרות (לפי הערה)
         </p>

@@ -60,19 +60,19 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
               key={month}
               onClick={() => !isFuture && onMonthChange(month)}
               disabled={isFuture}
-              className={`flex-shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs transition-colors ${
+              className={`flex-shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs transition-all duration-200 press-scale ${
                 isActive
-                  ? 'bg-[#222224] border border-[#4a9e7830] text-[#4a9e78]'
+                  ? 'bg-card border border-primary/20 text-primary'
                   : isFuture
-                  ? 'bg-[#191919] text-[#222224] cursor-default'
-                  : 'bg-[#191919] text-[#505052] hover:text-[#808082]'
+                  ? 'bg-secondary text-muted-foreground/20 cursor-default'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent'
               }`}
             >
               <span className="font-semibold">{label}</span>
               <span className={`text-[10px] mt-0.5 ${
-                isFuture ? 'text-[#222224]' : hasData
-                  ? net >= 0 ? 'text-[#4a9e78]' : 'text-[#a84444]'
-                  : 'text-[#2c2c2e]'
+                isFuture ? 'text-muted-foreground/20' : hasData
+                  ? net >= 0 ? 'text-[var(--income)]' : 'text-[var(--spend)]'
+                  : 'text-muted-foreground/30'
               }`}>
                 {!isFuture && hasData ? fmtNet(net) : '—'}
               </span>
@@ -83,15 +83,15 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
 
       {annualGoal > 0 && (
         <div className="mt-3">
-          <div className="flex justify-between text-[10px] text-[#404042] mb-1.5">
+          <div className="flex justify-between text-[10px] text-muted-foreground mb-1.5">
             <span>חסכונות {year}</span>
-            <span className={ytdSavings >= 0 ? 'text-[#4a9e78]' : 'text-[#a84444]'}>
+            <span className={ytdSavings >= 0 ? 'text-[var(--income)]' : 'text-[var(--spend)]'}>
               {ytdSavings >= 0 ? '+' : ''}₪{ytdSavings.toFixed(0)}
             </span>
           </div>
-          <div className="h-1 bg-[#191919] rounded-full overflow-hidden">
+          <div className="h-1 bg-secondary rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#4a9e78] rounded-full transition-all duration-500"
+              className="h-full bg-primary rounded-full transition-all duration-700 ease-out"
               style={{ width: `${savingsPct}%` }}
             />
           </div>

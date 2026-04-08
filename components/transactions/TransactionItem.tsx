@@ -19,7 +19,7 @@ export function TransactionItem({ transaction, category }: Props) {
 
   return (
     <>
-      <div className="flex items-center gap-3 py-2.5 border-b border-border last:border-0 group">
+      <div className="flex items-center gap-3 py-2.5 border-b border-border last:border-0 group hover:bg-accent/30 rounded-lg px-1 -mx-1 transition-colors duration-150">
         {/* Category icon circle */}
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0"

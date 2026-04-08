@@ -100,9 +100,9 @@ export default function DashboardPage() {
       <MonthStrip activeMonth={month} onMonthChange={setMonth} salary={salary} />
 
       {/* Spending hero */}
-      <div className="text-center">
+      <div className="text-center animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
         <p className="text-[9px] tracking-[0.2em] text-muted-foreground/60 uppercase mb-2">הוצאות החודש</p>
-        <p className="text-5xl font-extrabold tracking-tight text-foreground">
+        <p className="text-5xl font-extrabold tracking-tight text-foreground animate-count-pulse">
           ₪{totalSpent.toFixed(0)}
         </p>
         {vsLastMonth !== null && (
@@ -114,11 +114,11 @@ export default function DashboardPage() {
 
       {/* Stat chips */}
       <div className="grid grid-cols-3 gap-2">
-        <div className="bg-card rounded-xl p-3 text-center">
+        <div className="bg-card rounded-xl p-3 text-center card-hover animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
           <p className="text-[9px] text-muted-foreground/50 uppercase tracking-wide mb-1">ממוצע יומי</p>
           <p className="text-sm font-bold text-foreground">₪{dailyAvg.toFixed(0)}</p>
         </div>
-        <div className="bg-card rounded-xl p-3 text-center">
+        <div className="bg-card rounded-xl p-3 text-center card-hover animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <p className="text-[9px] text-muted-foreground/50 uppercase tracking-wide mb-1">
             {isCurrentMonth ? 'ימים נותרים' : 'ימים בחודש'}
           </p>
@@ -126,7 +126,7 @@ export default function DashboardPage() {
             {isCurrentMonth ? daysLeft : daysInMonth}
           </p>
         </div>
-        <div className="bg-card rounded-xl p-3 text-center">
+        <div className="bg-card rounded-xl p-3 text-center card-hover animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
           <p className="text-[9px] text-muted-foreground/50 uppercase tracking-wide mb-1">יתרה</p>
           <p
             className={`text-sm font-bold transition-all ${balance >= 0 ? 'text-[var(--income)]' : 'text-[var(--spend)]'}`}
@@ -139,7 +139,7 @@ export default function DashboardPage() {
 
       {/* Top spending categories */}
       {topCategories.length > 0 && (
-        <div className="bg-card rounded-2xl p-4 flex flex-col gap-2.5">
+        <div className="bg-card rounded-2xl p-4 flex flex-col gap-2.5 card-hover animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
           <p className="text-[9px] tracking-[0.2em] text-muted-foreground/50 uppercase mb-1">הוצאות לפי קטגוריה</p>
           {topCategories.map(({ category, amount }) => {
             const pct = totalSpent > 0 ? (amount / totalSpent) * 100 : 0;
@@ -153,7 +153,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="h-1 bg-secondary rounded-full overflow-hidden">
                     <div
-                      className="h-full rounded-full"
+                      className="h-full rounded-full transition-all duration-700 ease-out"
                       style={{ width: `${pct}%`, backgroundColor: category.color }}
                     />
                   </div>
