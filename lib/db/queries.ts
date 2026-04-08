@@ -110,22 +110,29 @@ export async function processRecurringTransactions(): Promise<void> {
 
   const recurrings = await db.recurringTransactions.toArray();
   for (const r of recurrings) {
-    if (r.lastAddedMonth === currentMonth) continue; // already added this month
-    if (dayOfMonth < r.dayOfMonth) continue;         // not due yet
+    if (r.lastAddedMonth === currentMonth) continue;
+    if (dayOfMonth < r.dayOfMonth) continue;
 
-    await db.transactions.add({
-      amount: r.amount,
-      currency: 'NIS',
-      originalAmount: r.amount,
-      originalCurrency: 'NIS',
-      categoryId: r.categoryId,
-      date: `${currentMonth}-${String(r.dayOfMonth).padStart(2, '0')}`,
-      notes: r.notes,
-      type: r.type,
-      source: 'manual',
+    // Use a transaction to prevent race conditions (React Strict Mode double-fire)
+    await db.transaction('rw', [db.recurringTransactions, db.transactions], async () => {
+      // Re-check inside transaction to prevent duplicate adds
+      const fresh = await db.recurringTransactions.get(r.id!);
+      if (!fresh || fresh.lastAddedMonth === currentMonth) return;
+
+      await db.transactions.add({
+        amount: r.amount,
+        currency: 'NIS',
+        originalAmount: r.amount,
+        originalCurrency: 'NIS',
+        categoryId: r.categoryId,
+        date: `${currentMonth}-${String(r.dayOfMonth).padStart(2, '0')}`,
+        notes: r.notes,
+        type: r.type,
+        source: 'manual',
+      });
+
+      await db.recurringTransactions.update(r.id!, { lastAddedMonth: currentMonth });
     });
-
-    await db.recurringTransactions.update(r.id!, { lastAddedMonth: currentMonth });
   }
 }
 
