@@ -197,10 +197,12 @@
 
 .page-enter {
   animation: fadeIn 0.25s ease-out both;
+  overflow: hidden;
 }
 
 .page-exit {
   opacity: 0;
+  overflow: hidden;
 }
 
 .animate-fade-in {
