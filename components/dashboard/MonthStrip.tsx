@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useEffect, useRef } from 'react';
+import { useMemo, useEffect, useRef, useCallback } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '@/lib/db/database';
 
@@ -10,6 +10,53 @@ interface Props {
 }
 
 const MONTH_LABELS = ['ינו','פבר','מרץ','אפר','מאי','יוני','יול','אוג','ספט','אוק','נוב','דצמ'];
+
+function useDragScroll() {
+  const ref = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
+  const startX = useRef(0);
+  const scrollStart = useRef(0);
+  const moved = useRef(false);
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    dragging.current = true;
+    moved.current = false;
+    startX.current = e.clientX;
+    scrollStart.current = el.scrollLeft;
+    el.style.cursor = 'grabbing';
+    el.style.userSelect = 'none';
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!dragging.current) return;
+      const dx = e.clientX - startX.current;
+      if (Math.abs(dx) > 3) moved.current = true;
+      el.scrollLeft = scrollStart.current - dx;
+    };
+
+    const onMouseUp = () => {
+      if (!dragging.current) return;
+      dragging.current = false;
+      el.style.cursor = 'grab';
+      el.style.userSelect = '';
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+    return () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+  }, []);
+
+  return { ref, onMouseDown, wasDragging: () => moved.current };
+}
 
 export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
   const year = activeMonth.slice(0, 4);
@@ -51,6 +98,7 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
   }
 
   const activeRef = useRef<HTMLButtonElement>(null);
+  const { ref: scrollRef, onMouseDown, wasDragging } = useDragScroll();
 
   useEffect(() => {
     activeRef.current?.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
@@ -58,14 +106,22 @@ export function MonthStrip({ activeMonth, onMonthChange, salary }: Props) {
 
   return (
     <div>
-      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}>
+      <div
+        ref={scrollRef}
+        onMouseDown={onMouseDown}
+        className="flex gap-2 overflow-x-auto pb-2 scrollbar-none cursor-grab"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
         {monthData.map(({ month, label, net, isFuture, hasData }) => {
           const isActive = month === activeMonth;
           return (
             <button
               key={month}
               ref={isActive ? activeRef : undefined}
-              onClick={() => !isFuture && onMonthChange(month)}
+              onClick={() => {
+                if (wasDragging()) return; // don't select month if user was dragging
+                if (!isFuture) onMonthChange(month);
+              }}
               disabled={isFuture}
               className={`flex-shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs transition-all duration-200 ${
                 isActive
